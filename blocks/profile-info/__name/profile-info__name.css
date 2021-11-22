@@ -1,0 +1,10 @@
+.profile-info__name {
+  grid-area: name;
+  color: white;
+  margin: 0;
+  /* width: 90%; */
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 48px;
+  letter-spacing: 0.4px;
+}

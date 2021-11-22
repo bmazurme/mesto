@@ -1,0 +1,12 @@
+.element {
+  background-color: white;
+  width: 282px;
+  height: 362px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-right: 17px;
+}
+
+.element:nth-child(3n) {
+  margin-right: 0;
+}

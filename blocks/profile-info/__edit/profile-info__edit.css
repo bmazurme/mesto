@@ -1,0 +1,15 @@
+.profile-info__edit {
+  grid-area: button;
+  border: 1px solid #FFFFFF;
+  margin-top: 15px;
+  padding: 0;
+  width: 10%;
+  background-image: url(../../../images/Vector.svg); 
+  background-size: 50%;
+  background-position: center;
+  object-fit: cover;
+  height: 22px;
+  width: 22px;
+  background-repeat: no-repeat;
+  
+}
