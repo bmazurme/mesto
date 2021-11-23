@@ -13,8 +13,7 @@
   grid-template-rows: 48px 19px;
   grid-template-areas:
     "name button"
-    "profession gap"
-    ;
+    "profession gap";
 }
 
 @media screen and (min-width: 320px) and (max-width: 899px) {
@@ -24,8 +23,7 @@
     grid-template-rows: 33px 17px;
     grid-template-areas:
     "space name button"
-    "space profession gap"
-    ;
+    "space profession gap";
     margin-top: 26px;
     margin-left: auto;
     font-size: 27px;
