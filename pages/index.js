@@ -12,6 +12,7 @@ let formProfession = form.querySelector('.form__profession');
 editButton.addEventListener('click', openForm);
 closeButton.addEventListener('click', closeForm);
 saveButton.addEventListener('click', saveForm);
+popup.addEventListener('keyup', (event)=>{if (event.keyCode === 13) {saveForm()}});
 
 for(var i = 0; i < likeButtons.length; i++) {
   likeButtons[i].addEventListener("click", likeChange);
