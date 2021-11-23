@@ -4,3 +4,12 @@
   width: 142px;
   height: 33px;
 }
+
+@media screen and (min-width: 320px) and (max-width: 899px) {
+  .logo {
+    margin: 0 0 0 27px;
+    padding: 0;
+    width: 103px;
+    height: 24px;
+  }
+}

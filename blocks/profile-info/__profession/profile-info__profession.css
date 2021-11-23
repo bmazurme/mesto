@@ -9,3 +9,12 @@
   font-size: 18px;
   line-height: 22px;
 }
+
+@media screen and (min-width: 320px) and (max-width: 899px) {
+  .profile-info__profession {
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 14px;
+    text-align: center;
+  }
+}

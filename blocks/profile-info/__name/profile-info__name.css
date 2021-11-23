@@ -2,9 +2,16 @@
   grid-area: name;
   color: white;
   margin: 0;
-  /* width: 90%; */
   font-weight: 500;
   font-size: 42px;
   line-height: 48px;
   letter-spacing: 0.4px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 879px) {
+  .profile-info__name {
+    text-align: center;
+    font-size: 27px;
+    line-height: 32px;
+  }
 }

@@ -2,6 +2,7 @@
   grid-area: button;
   border: 1px solid #FFFFFF;
   margin-top: 15px;
+  margin-left: 18px;
   padding: 0;
   width: 10%;
   background-image: url(../../../images/Vector.svg); 
@@ -11,5 +12,13 @@
   height: 22px;
   width: 22px;
   background-repeat: no-repeat;
-  
+}
+
+@media screen and (min-width: 320px) and (max-width: 879px) {
+  .profile-info__edit {
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 14px;
+    width: 14px;
+  }
 }
