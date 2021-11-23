@@ -21,3 +21,12 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright1.css);
 /* ??? footer__copyright - not available -> was renamed */
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__title/form__title.css);
+@import url(../blocks/form/__name/form__name.css);
+@import url(../blocks/form/__profession/form__profession.css);
+@import url(../blocks/form/__save/form__save.css);
+@import url(../blocks/form/__close/form__close.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_active/popup_active.css);
+@import url(../blocks/element/__like/_checked/element__like_checked.css);

@@ -25,6 +25,10 @@
   .element:nth-child(3n) {
     margin-right: auto;
   }
+
+  .element:last-child {
+    margin-bottom: 0;
+  }
 } 
 
 @media screen and (min-width: 600px) and (max-width: 879px) {
@@ -36,5 +40,8 @@
   }
   .element:nth-child(2n) {
     margin-left: 16px;
+  }
+  .element:last-child {
+    margin-bottom: 0;
   }
 }

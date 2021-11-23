@@ -1,13 +1,16 @@
 .profile-info {
   align-self: center;
   color: white;
-  max-width: 336px;
-  margin-top: 18px;
+  width: 326px;
+  min-height: 78px;
+  margin-top: 0;
+  margin-bottom: 0;
   margin-left: 30px;
   margin-right: auto;
   display: grid;
+  gap: 0;
   grid-template-columns: 1fr 24px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 48px 19px;
   grid-template-areas:
     "name button"
     "profession gap"
@@ -16,11 +19,18 @@
 
 @media screen and (min-width: 320px) and (max-width: 899px) {
   .profile-info {
+    min-height: 54px;
+    grid-template-columns: 24px 1fr 24px;
+    grid-template-rows: 33px 17px;
+    grid-template-areas:
+    "space name button"
+    "space profession gap"
+    ;
     margin-top: 26px;
-    margin-bottom: 0;
     margin-left: auto;
-    margin-right: auto;
     font-size: 27px;
     line-height: 32px;
+    max-width: 238px;
+    min-width: 234px;
   }
 }

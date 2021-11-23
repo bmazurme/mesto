@@ -1,14 +1,14 @@
-.element__like {
+.element__like_checked {
   align-self: flex-end;
   margin: auto 5px auto auto;
   padding: 0;
   width: 22px;
   height: 19px;
-  background-image: url(../../../images/stroke.svg);
+  background-image: url(../../../../images/stroke-checked.svg);
   background-size: cover;
 }
 
-.element__like:hover {
+.element__like_checked:hover {
   opacity: 0.5;
   cursor:pointer;
 }
