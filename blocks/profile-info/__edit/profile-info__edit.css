@@ -2,15 +2,16 @@
   grid-area: button;
   border: 1px solid #FFFFFF;
   margin-top: 15px;
-  margin-left: 18px;
+  margin-left: 10px;
   padding: 0;
   background-image: url(../../../images/Vector.svg);
   background-size: 50%;
   background-position: center;
   object-fit: cover;
-  height: 22px;
-  width: 22px;
+  height: 24px;
+  width: 24px;
   background-repeat: no-repeat;
+  background-color: black;
 }
 
 .profile-info__edit:hover {
@@ -22,7 +23,7 @@
   .profile-info__edit {
     margin-top: 9px;
     margin-left: 9px;
-    height: 16px;
-    width: 16px;
+    height: 18px;
+    width: 18px;
   }
 }
