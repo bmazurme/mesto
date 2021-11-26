@@ -1,5 +1,5 @@
 .element__name {
-  margin: 0;
+  margin: 2px 0;
   padding: 0;
   max-width: 200px;
   text-overflow: ellipsis;

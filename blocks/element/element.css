@@ -1,4 +1,6 @@
 .element {
+  display: flex;
+  flex-direction: column;
   background-color: white;
   max-width: 282px;
   max-height: 361px;

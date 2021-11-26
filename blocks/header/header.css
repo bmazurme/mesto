@@ -3,20 +3,24 @@
   padding: 0;
   height: 74px;
   max-width: 880px;
-  width: 100%;
   border-bottom: 1px solid #545454;
 }
 
 @media screen and (min-width: 320px) and (max-width: 599px) {
   .header {
-    height: 56px;
+    height: 55px;
     margin: 28px auto 0;
     max-width: 320px;
+    padding-left: 27px;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 879px) {
+@media screen and (min-width: 600px) and (max-width: 899px) {
   .header {
-    margin: 28px 0 0;
+    height: 55px;
+    margin: 28px 27px 0;
   }
 }
