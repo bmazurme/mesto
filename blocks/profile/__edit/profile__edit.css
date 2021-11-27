@@ -11,7 +11,7 @@
   height: 24px;
   width: 24px;
   background-repeat: no-repeat;
-  background: none;
+  background-color: rgba(0,0,0,0);
 }
 
 .profile__edit:hover {

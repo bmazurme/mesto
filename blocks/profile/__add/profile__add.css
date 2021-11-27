@@ -10,7 +10,7 @@
   background-image: url(../../../images/plus.svg);
   background-repeat: no-repeat;
   background-position: center;
-  background:none;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .profile__add:hover {

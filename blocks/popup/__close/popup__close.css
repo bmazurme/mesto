@@ -7,7 +7,7 @@
   background-size: cover;
   top: -40px;
   right: -40px;
-  background: none;
+  background-color: rgba(0, 0, 0, 0);
   border: 0;
 }
 
