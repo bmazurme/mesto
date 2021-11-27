@@ -1,5 +1,8 @@
 .form__title {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 24px;
+  margin-left: 0;
+  margin-right: 0;
   padding: 0;
   font-weight: 900;
   font-size: 24px;
@@ -11,5 +14,6 @@
     font-size: 18px;
     line-height: 22px;
     max-width: 232px;
+    margin-bottom: 45px;
   }
 }

@@ -12,20 +12,18 @@
 
   <body class="root">
     <div class="page">
-      <section class="header">
+      <header class="header">
         <img class="logo" src="./images/logo.svg" alt="Логотип Место">
-      </section>
+      </header>
 
       <section class="profile">
         <img class="avatar" src="./images/image.jpg" alt="Аватар">
-        <div class="profile-info">
-          <h1 class="profile-info__name">Жак-Ив Кусто</h1>
-          <p class="profile-info__profession">Исследователь океана</p>
-          <button type="button" class="profile-info__edit" ></button>
+        <div class="profile__info">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <p class="profile__profession">Исследователь океана</p>
+          <button aria-label="Edit" type="button" class="profile__edit"></button>
         </div>
-        <button class="add-button" type="button">
-          <img class="add-button__image" src="./images/plus.svg" alt="Добавить слайд">
-        </button>
+        <button aria-label="Add" class="profile__add" type="button"></button>
       </section>
 
       <section class="elements">
@@ -33,7 +31,7 @@
           <img class="element__image" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Церковь в горах">
           <div class="element__group">
             <h2 class="element__name">Карачаевск</h2>
-            <div class="element__like"></div>
+            <button aria-label="Like" class="element__like" name="button-like"></button>
           </div>
         </div>
 
@@ -41,7 +39,7 @@
           <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Горы на фоне заката">
           <div class="element__group">
             <h2 class="element__name">Гора Эльбрус</h2>
-            <div class="element__like"></div>
+            <button aria-label="Like" class="element__like" name="button-like"></button>
           </div>
         </div>
         
@@ -49,7 +47,7 @@
           <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Гора в снегу">
           <div class="element__group">
             <h2 class="element__name">Домбай</h2>
-            <div class="element__like"></div>
+            <button aria-label="Like" class="element__like" name="button-like"></button>
           </div>
         </div>
 
@@ -57,7 +55,7 @@
           <img class="element__image" src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Горы на фоне заката">
           <div class="element__group">
             <h2 class="element__name">Гора Эльбрус</h2>
-            <div class="element__like"></div>
+            <button aria-label="Like" class="element__like" name="button-like"></button>
           </div>
         </div>
 
@@ -65,7 +63,7 @@
           <img class="element__image" src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Гора в снегу">
           <div class="element__group">
             <h2 class="element__name">Домбай</h2>
-            <div class="element__like"></div>
+            <button aria-label="Like" class="element__like" name="button-like"></button>
           </div>
         </div>
 
@@ -73,24 +71,24 @@
           <img class="element__image" src="./images//kirill-pershin-1088404-unsplash.jpg" alt="Церковь в горах">
           <div class="element__group">
             <h2 class="element__name">Карачаево-Черкессия</h2>
-            <div class="element__like"></div>
+            <button aria-label="Like" class="element__like" name="button-like"></button>
           </div>
         </div>
       </section>
 
-      <section class="footer">
+      <footer class="footer">
         <p class="footer__copyright"> &copy; 2021 Mesto Russia</p>
-      </section>
+      </footer>
     </div>
 
     <div class="popup">
       <div class="popup__container">
-        <button class="popup__close"></button>
+        <button aria-label="Close" class="popup__close" type="button"></button>
         <form class="form" name="edit-form">
           <h2 class="form__title">Редактировать профиль</h2>
-          <input class="form__name" name="name">
-          <input class="form__profession" name="profession">
-          <button class="form__save" type="button">Сохранить</button>
+          <input placeholder="Имя" class="form__input form__input_type_name" name="name">
+          <input placeholder="Профессия" class="form__input form__input_type_profession" name="profession">
+          <button aria-label="Save" class="form__save" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
