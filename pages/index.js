@@ -7,7 +7,6 @@ let profileName = document.querySelector('.profile__name');
 let profileProfession = document.querySelector('.profile__profession');
 let formName = form.querySelector('.form__input_type_name');
 let formProfession = form.querySelector('.form__input_type_profession');
-let cover = document.querySelector('.popup__container');
 
 function openForm() {
   formName.value = profileName.textContent;
@@ -29,9 +28,9 @@ function formSubmitHandler (evt) {
 form.addEventListener('submit', formSubmitHandler);
 editButton.addEventListener('click', openForm);
 closeButton.addEventListener('click', closeForm);
-popup.addEventListener('keyup', (event)=>{if (event.keyCode === 13) {saveForm()}});
 
-
+//let cover = document.querySelector('.popup__container');
+//popup.addEventListener('keyup', (event)=>{if (event.keyCode === 13) {saveForm()}});
 //popup.addEventListener('click', overlayClick);
 // function overlayClick(e) {
 //   if(!cover.contains(e.target)) {
