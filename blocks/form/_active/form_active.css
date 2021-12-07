@@ -1,6 +1,6 @@
-.popup_active {
+.form_active {
+  display: block;
   visibility: visible;
   opacity: 1;
-  /* transition: .6s linear; */
   transition: .5s ease-out;
 }
