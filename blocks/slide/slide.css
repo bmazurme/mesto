@@ -1,8 +1,8 @@
 .slide {
-  display: none;
-  visibility: hidden;
+  /* display: none; */
+  /* visibility: hidden;
   opacity: 0;
-  transition: .5s ease-out;
+  transition: .5s ease-out; */
   height: 100%;
   width: 100%;
   max-width: 75vw;

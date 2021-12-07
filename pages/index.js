@@ -27,7 +27,6 @@ const initialCards = [
 ];
 const addButton = document.querySelector('.profile__add');
 const editButton = document.querySelector('.profile__edit');
-const closeButton = document.querySelector('.popup__close');
 const formEdit = document.querySelector('.form_type_edit');
 const formAdd = document.querySelector('.form_type_add');
 const slide = document.querySelector('.slide');
@@ -35,7 +34,12 @@ const nameFormEdit = formEdit.querySelector('.form__input_type_name');
 const professionFormEdit = formEdit.querySelector('.form__input_type_profession');
 const nameFormAdd = formAdd.querySelector('.form__input_type_name');
 const linkFormAdd = formAdd.querySelector('.form__input_type_link');
-const popup = document.querySelector('.popup');
+const popupTypeSlide = document.querySelector('.popup_type_slide');
+const popupTypeEdit = document.querySelector('.popup_type_edit');
+const popupTypeAdd = document.querySelector('.popup_type_add');
+const closeButtonSlide = popupTypeSlide.querySelector('.popup__close');
+const closeButtonEdit = popupTypeEdit.querySelector('.popup__close');
+const closeButtonAdd = popupTypeAdd.querySelector('.popup__close');
 const popupContainer = document.querySelector('.popup__container');
 const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
@@ -48,24 +52,23 @@ function cardToSubscribe() {
   Array.from(getImages()).forEach(item => {return item.addEventListener("click", openImage);});
 }
 // block form
-function closeForm() {
-  popup.classList.remove('popup_active', 'popup_image');
-  formEdit.classList.remove('form_active');
-  formAdd.classList.remove('form_active');
+function closeForm(evt) {
+  const currentElement = evt.target.parentElement.parentElement;
+  currentElement.classList.remove('popup_active', 'popup_image');
   slide.classList.remove('slide_active');
 }
 function editForm() {
   nameFormEdit.value = profileName.textContent;
   professionFormEdit.value = profileProfession.textContent;
   formEdit.addEventListener('submit', saveProfileForm);
-  popup.classList.add('popup_active');
+  popupTypeEdit.classList.add('popup_active');
   formEdit.classList.add('form_active');
 }
 function addForm() {
   formAdd.addEventListener('submit', saveCardForm);
   nameFormAdd.value = '';
   linkFormAdd.value = '';
-  popup.classList.add('popup_active');
+  popupTypeAdd.classList.add('popup_active');
   formAdd.classList.add('form_active');
 }
 function openImage(evt) {
@@ -78,16 +81,14 @@ function openImage(evt) {
   slideImage.src= currentImage.src ;
   slideImage.alt = name.textContent;
   formName.textContent = name.textContent;
-  popup.classList.add('popup_image', 'popup_active');
+  popupTypeSlide.classList.add('popup_image', 'popup_active');
   slide.classList.add('slide_active');
 }
 function saveProfileForm(evt) {
   evt.preventDefault();
   profileName.textContent = nameFormEdit.value;
   profileProfession.textContent = professionFormEdit.value;
-  popup.classList.remove('popup_active');
-  formEdit.classList.remove('form_active');
-  formAdd.classList.remove('form_active');
+  popupTypeEdit.classList.remove('popup_active');
 }
 // block buttons
 function getImages() {
@@ -126,7 +127,7 @@ function saveCardForm(evt) {
     name: nameFormAdd.value,
     link: linkFormAdd.value};
   addCard(newCard);
-  popup.classList.remove('popup_active');
+  popupTypeAdd.classList.remove('popup_active');
   formEdit.classList.remove('form_active');
   formAdd.classList.remove('form_active');
 }
@@ -136,7 +137,9 @@ context.forEach(element => { return cardsContainer.append(element);});
 cardToSubscribe();
 editButton.addEventListener('click', editForm);
 addButton.addEventListener('click', addForm);
-closeButton.addEventListener('click', closeForm);
+closeButtonSlide.addEventListener('click', closeForm);
+closeButtonEdit.addEventListener('click', closeForm);
+closeButtonAdd.addEventListener('click', closeForm);
 
 // const initialCards = [
 //   {

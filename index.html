@@ -36,15 +36,29 @@
       </footer>
     </div>
 
-    <div class="popup">
+    <div class="popup popup_type_slide">
       <div class="popup__container">
         <button aria-label="Close" class="popup__close" type="button"></button>
-        <form class="form form_type_edit" name="edit-form">
+        <div class="slide">
+          <img class="slide__image" alt="image">
+          <p class="slide__name">Name</p>
+        </div>
+      </div>
+    </div>
+    <div class="popup popup_type_edit">
+      <div class="popup__container">
+        <button aria-label="Close" class="popup__close" type="button"></button>
+         <form class="form form_type_edit" name="edit-form">
           <h2 class="form__title">Редактировать профиль</h2>
           <input placeholder="Имя" class="form__input form__input_type_name" name="name">
           <input placeholder="Профессия" class="form__input form__input_type_profession" >
           <button aria-label="Save" class="form__save" type="submit">Сохранить</button>
         </form>
+      </div>
+    </div>
+    <div class="popup popup_type_add">
+      <div class="popup__container">
+        <button aria-label="Close" class="popup__close" type="button"></button>
         <form class="form form_type_add" name="add-form">
           <h2 class="form__title">Новое место</h2>
           <input placeholder="Название" class="form__input form__input_type_name" name="name">

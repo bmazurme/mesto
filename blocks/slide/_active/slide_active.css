@@ -1,7 +1,7 @@
 
 .slide_active {
-  display: block;
+  /* display: block;
   visibility: visible;
   opacity: 1;
-  transition: .5s ease-out;
+  transition: .5s ease-out; */
 }
