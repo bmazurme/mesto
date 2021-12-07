@@ -1,8 +1,4 @@
 .form {
-  /* visibility: hidden;
-  opacity: 0;
-  transition: .5s ease-out;
-  display: none; */
   z-index: 2;
   background-color: white;
   border-radius: 10px;
