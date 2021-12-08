@@ -19,22 +19,24 @@ const profileProfession = document.querySelector('.profile__profession');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
 
-function closePopup(evt) {
-  evt.target.parentElement.parentElement.classList.remove('popup_active');
+function openPopup(popup) {
+  popup.classList.add('popup_active');
+}
+
+function closePopup(popup) {
+  popup.classList.remove('popup_active');
 }
 
 function openUserProfilePopup() {
   nameformUserProfile.value = profileName.textContent;
   professionformUserProfile.value = profileProfession.textContent;
-  popupTypeEdit.classList.add('popup_active');
-  formUserProfile.classList.add('form_active');
+  openPopup(popupTypeEdit);
 }
 
 function openAddCardPopup() {
   nameFormAddCard.value = '';
   linkFormAddCard.value = '';
-  popupTypeAdd.classList.add('popup_active');
-  formAddCard.classList.add('form_active');
+  openPopup(popupTypeAdd);
 }
 
 function openImagePopup(evt) {
@@ -45,14 +47,14 @@ function openImagePopup(evt) {
   const slideImage = popupTypeSlide.querySelector('.slide__image');
   slideImage.src= currentImage.src ;
   slideImage.alt = name.textContent;
-  popupTypeSlide.classList.add('popup_active');
+  openPopup(popupTypeSlide);
 }
 
 function saveProfileForm(evt) {
   evt.preventDefault();
   profileName.textContent = nameformUserProfile.value;
   profileProfession.textContent = professionformUserProfile.value;
-  popupTypeEdit.classList.remove('popup_active');
+  closePopup(popupTypeEdit);
 }
 
 function likeToggle(event) {
@@ -85,20 +87,18 @@ function saveCardForm(evt) {
   };
   const element = createCard(newCard);
   cardsContainer.prepend(element);
-  popupTypeAdd.classList.remove('popup_active');
-  formUserProfile.classList.remove('form_active');
-  formAddCard.classList.remove('form_active');
+  closePopup(popupTypeAdd);
 }
 
 initialCards.forEach(item => {
   const element = createCard(item);
-  return cardsContainer.append(element);
+  cardsContainer.append(element);
 });
 
 formUserProfile.addEventListener('submit', saveProfileForm);
 formAddCard.addEventListener('submit', saveCardForm);
 editButton.addEventListener('click', openUserProfilePopup);
 addButton.addEventListener('click', openAddCardPopup);
-closeButtonSlide.addEventListener('click', closePopup);
-closeButtonEdit.addEventListener('click', closePopup);
-closeButtonAdd.addEventListener('click', closePopup);
+closeButtonSlide.addEventListener('click', closePopup.bind(null, popupTypeSlide));
+closeButtonEdit.addEventListener('click', closePopup.bind(null, popupTypeEdit));
+closeButtonAdd.addEventListener('click', closePopup.bind(null, popupTypeAdd));
