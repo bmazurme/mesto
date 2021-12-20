@@ -19,6 +19,7 @@ const profileProfession = document.querySelector('.profile__profession');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
 
+// Block change of visibility state
 function openPopup(popup) {
   popup.classList.add('popup_active');
 }
@@ -27,6 +28,7 @@ function closePopup(popup) {
   popup.classList.remove('popup_active');
 }
 
+// Block initial values of forms
 function openUserProfilePopup() {
   nameformUserProfile.value = profileName.textContent;
   professionformUserProfile.value = profileProfession.textContent;
@@ -50,15 +52,12 @@ function openImagePopup(evt) {
   openPopup(popupTypeSlide);
 }
 
+// Block 
 function saveProfileForm(evt) {
   evt.preventDefault();
   profileName.textContent = nameformUserProfile.value;
   profileProfession.textContent = professionformUserProfile.value;
   closePopup(popupTypeEdit);
-}
-
-function likeToggle(event) {
-  event.target.classList.toggle('element__like_checked');
 }
 
 function createCard(item) {
@@ -73,6 +72,10 @@ function createCard(item) {
   cardImage.src = item.link;
   cardImage.alt = item.name;
   return cardElement;
+}
+
+function likeToggle(event) {
+  event.target.classList.toggle('element__like_checked');
 }
 
 function deleteCard(evn) {
@@ -90,6 +93,7 @@ function saveCardForm(evt) {
   closePopup(popupTypeAdd);
 }
 
+// Block 
 initialCards.forEach(item => {
   const element = createCard(item);
   cardsContainer.append(element);

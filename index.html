@@ -45,25 +45,39 @@
         </div>
       </div>
     </div>
+
     <div class="popup popup_type_edit">
       <div class="popup__container">
         <button aria-label="Close" class="popup__close" type="button"></button>
-         <form class="form form_type_edit" name="edit-form">
+         <form class="form form_type_edit" name="edit-form" novalidate>
           <h2 class="form__title">Редактировать профиль</h2>
-          <input placeholder="Имя" class="form__input form__input_type_name" name="name">
-          <input placeholder="Профессия" class="form__input form__input_type_profession" >
-          <button aria-label="Save" class="form__save" type="submit">Сохранить</button>
+          <input placeholder="Имя" class="form__input form__input_type_name" name="name" 
+            required minlength="2" maxlength="40" id="name-input" value="Жак-Ив Кусто">
+            <span class="name-input-error form__input-error"></span>
+
+          <input placeholder="Профессия" class="form__input form__input_type_profession" 
+            required minlength="2" maxlength="200" id="profession-input" value="Исследователь океана">
+            <span class="profession-input-error form__input-error"></span>
+
+          <button aria-label="Save" class="form__save form__submit" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
+
     <div class="popup popup_type_add">
       <div class="popup__container">
         <button aria-label="Close" class="popup__close" type="button"></button>
         <form class="form form_type_add" name="add-form">
           <h2 class="form__title">Новое место</h2>
-          <input placeholder="Название" class="form__input form__input_type_name" name="name">
-          <input placeholder="Ссылка на картинку" class="form__input form__input_type_link" >
-          <button aria-label="Save" class="form__save" type="submit">Сохранить</button>
+
+          <input placeholder="Название" class="form__input form__input_type_name"
+            required minlength="2" maxlength="30" name="name" id="name-input">
+          <span class="name-input-error form__input-error"></span>
+          <input placeholder="Ссылка на картинку" class="form__input 
+            form__input_type_link" id="link-input" required type="url">
+          <span class="link-input-error form__input-error"></span>
+
+          <button aria-label="Save" class="form__save form__submit" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
@@ -80,5 +94,6 @@
     </template>
 
     <script type="module" src="./pages/index.js"></script>
+    <script type="module" src="./pages/validate.js"></script>
   </body>
 </html>
