@@ -22,7 +22,6 @@ const checkInputValidity = (formElement, inputElement) => {
 
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-
   const buttonElement = formElement.querySelector('.form__submit');
   toggleButtonState(inputList, buttonElement);
 
@@ -34,7 +33,9 @@ const setEventListeners = (formElement) => {
   });
 };
 
-function enableValidation() {
+function enableValidation(obj) {
+  console.log(obj.formSelector);
+
   const formList = Array.from(document.querySelectorAll('.form')); 
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
@@ -43,11 +44,6 @@ function enableValidation() {
     setEventListeners(formElement);
   }); 
 }
-enableValidation();
-
-
-
-
 
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
@@ -62,3 +58,14 @@ function toggleButtonState(inputList, buttonElement) {
     buttonElement.classList.remove('form__save_inactive');
   }
 }
+
+//enableValidation();
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}); 

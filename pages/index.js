@@ -18,6 +18,7 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
+const listPopup = Array.from(document.querySelectorAll('.popup'));
 
 // Block change of visibility state
 function openPopup(popup) {
@@ -36,8 +37,7 @@ function openUserProfilePopup() {
 }
 
 function openAddCardPopup() {
-  nameFormAddCard.value = '';
-  linkFormAddCard.value = '';
+  formAddCard.reset();
   openPopup(popupTypeAdd);
 }
 
@@ -91,6 +91,7 @@ function saveCardForm(evt) {
   const element = createCard(newCard);
   cardsContainer.prepend(element);
   closePopup(popupTypeAdd);
+  formAddCard.querySelector('.form__submit').classList.add('form__save_inactive');
 }
 
 // Block 
@@ -106,3 +107,18 @@ addButton.addEventListener('click', openAddCardPopup);
 closeButtonSlide.addEventListener('click', closePopup.bind(null, popupTypeSlide));
 closeButtonEdit.addEventListener('click', closePopup.bind(null, popupTypeEdit));
 closeButtonAdd.addEventListener('click', closePopup.bind(null, popupTypeAdd));
+
+
+document.addEventListener('mousedown', function (evt) {
+  if (evt.target.classList.contains('popup')) {
+      closePopup(evt.target);
+  }
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    listPopup.forEach((popupElement) => {
+      closePopup(popupElement);
+    });
+  }
+});
