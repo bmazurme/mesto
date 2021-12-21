@@ -1,3 +1,10 @@
+import {config} from './config.js';
+
+const addButton = document.querySelector('.profile__add');
+const formAdd = document.querySelector('.form_type_add');
+const editButton = document.querySelector('.profile__edit');
+const formEdit = document.querySelector('.form_type_edit');
+
 const showInputError = (config, formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(config.inputErrorClass);
@@ -51,16 +58,20 @@ function hasInvalidInput(inputList) {
 function toggleButtonState(config, inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(config.inactiveButtonClass);
+    buttonElement.disabled = true;
   } else {
     buttonElement.classList.remove(config.inactiveButtonClass);
+    buttonElement.disabled = false;
   }
 }
 
-enableValidation({
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__submit',
-  inactiveButtonClass: 'form__save_inactive',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
-}); 
+function switchButtonState(config, formElement) {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  toggleButtonState(config, inputList, buttonElement);
+}
+
+addButton.addEventListener('click', ()=> switchButtonState(config, formAdd));
+editButton.addEventListener('click', ()=> switchButtonState(config, formEdit));
+
+enableValidation(config); 
