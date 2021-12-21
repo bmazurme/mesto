@@ -1,10 +1,5 @@
 import {config} from './config.js';
 
-const addButton = document.querySelector('.profile__add');
-const formAdd = document.querySelector('.form_type_add');
-const editButton = document.querySelector('.profile__edit');
-const formEdit = document.querySelector('.form_type_edit');
-
 const showInputError = (config, formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(config.inputErrorClass);
@@ -64,14 +59,5 @@ function toggleButtonState(config, inputList, buttonElement) {
     buttonElement.disabled = false;
   }
 }
-
-function switchButtonState(config, formElement) {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
-  toggleButtonState(config, inputList, buttonElement);
-}
-
-addButton.addEventListener('click', ()=> switchButtonState(config, formAdd));
-editButton.addEventListener('click', ()=> switchButtonState(config, formEdit));
 
 enableValidation(config); 
