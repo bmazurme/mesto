@@ -18,7 +18,9 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
+const listPopup = Array.from(document.querySelectorAll('.popup'));
 
+// Block change of visibility state
 function openPopup(popup) {
   popup.classList.add('popup_active');
 }
@@ -27,6 +29,7 @@ function closePopup(popup) {
   popup.classList.remove('popup_active');
 }
 
+// Block initial values of forms
 function openUserProfilePopup() {
   nameformUserProfile.value = profileName.textContent;
   professionformUserProfile.value = profileProfession.textContent;
@@ -34,8 +37,7 @@ function openUserProfilePopup() {
 }
 
 function openAddCardPopup() {
-  nameFormAddCard.value = '';
-  linkFormAddCard.value = '';
+  formAddCard.reset();
   openPopup(popupTypeAdd);
 }
 
@@ -50,15 +52,12 @@ function openImagePopup(evt) {
   openPopup(popupTypeSlide);
 }
 
+// Block 
 function saveProfileForm(evt) {
   evt.preventDefault();
   profileName.textContent = nameformUserProfile.value;
   profileProfession.textContent = professionformUserProfile.value;
   closePopup(popupTypeEdit);
-}
-
-function likeToggle(event) {
-  event.target.classList.toggle('element__like_checked');
 }
 
 function createCard(item) {
@@ -75,6 +74,10 @@ function createCard(item) {
   return cardElement;
 }
 
+function likeToggle(event) {
+  event.target.classList.toggle('element__like_checked');
+}
+
 function deleteCard(evn) {
   evn.target.closest('.element').remove();
 }
@@ -88,8 +91,10 @@ function saveCardForm(evt) {
   const element = createCard(newCard);
   cardsContainer.prepend(element);
   closePopup(popupTypeAdd);
+  formAddCard.querySelector('.form__submit').classList.add('form__save_inactive');
 }
 
+// Block 
 initialCards.forEach(item => {
   const element = createCard(item);
   cardsContainer.append(element);
@@ -102,3 +107,18 @@ addButton.addEventListener('click', openAddCardPopup);
 closeButtonSlide.addEventListener('click', closePopup.bind(null, popupTypeSlide));
 closeButtonEdit.addEventListener('click', closePopup.bind(null, popupTypeEdit));
 closeButtonAdd.addEventListener('click', closePopup.bind(null, popupTypeAdd));
+
+
+document.addEventListener('mousedown', function (evt) {
+  if (evt.target.classList.contains('popup')) {
+      closePopup(evt.target);
+  }
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    listPopup.forEach((popupElement) => {
+      closePopup(popupElement);
+    });
+  }
+});
