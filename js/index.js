@@ -18,6 +18,7 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
+const saveButton = formAddCard.querySelector('.form__save');
 
 // Block change of visibility state
 function openPopup(popup) {
@@ -39,6 +40,7 @@ function openUserProfilePopup() {
 
 function openAddCardPopup() {
   formAddCard.reset();
+  saveButton.classList.add('form__save_inactive');
   openPopup(popupTypeAdd); 
 }
 
