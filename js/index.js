@@ -1,4 +1,6 @@
 import {initialCards} from './initialCards.js';
+import {lockButton} from './validate.js';
+import {config} from './config.js';
 
 const addButton = document.querySelector('.profile__add');
 const editButton = document.querySelector('.profile__edit');
@@ -40,7 +42,9 @@ function openUserProfilePopup() {
 
 function openAddCardPopup() {
   formAddCard.reset();
-  saveButton.classList.add('form__save_inactive');
+
+  lockButton(saveButton, config.inactiveButtonClass);
+  
   openPopup(popupTypeAdd); 
 }
 
