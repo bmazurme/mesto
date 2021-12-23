@@ -14,9 +14,9 @@
   font-size: 14px;
   line-height: 17px;
 }
-
+/* 
 @media screen and (min-width: 320px) and (max-width: 539px) {
   .form__input {
     max-width: 238px;
   }
-}
+} */
