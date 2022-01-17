@@ -1,6 +1,10 @@
 import {initialCards} from './initialCards.js';
-import {lockButton} from './validate.js';
+import {lockButton} from './FormValidator.js';
 import {config} from './config.js';
+import {Card} from './Card.js';
+//import {AddCard} from './Card.js';
+//import {FormValidator} from './FormValidator.js';
+import {enableValidation} from './FormValidator.js';
 
 const addButton = document.querySelector('.profile__add');
 const editButton = document.querySelector('.profile__edit');
@@ -18,7 +22,6 @@ const closeButtonEdit = popupTypeEdit.querySelector('.popup__close');
 const closeButtonAdd = popupTypeAdd.querySelector('.popup__close');
 const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
-const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
 const saveButton = formAddCard.querySelector('.form__save');
 
@@ -48,41 +51,11 @@ function openAddCardPopup() {
   openPopup(popupTypeAdd); 
 }
 
-function openImagePopup(item) {
-  const slideImage = popupTypeSlide.querySelector('.slide__image');
-  slideImage.src = item.link;
-  slideImage.alt = item.name;
-  openPopup(popupTypeSlide);
-}
-
-// Block 
 function saveProfileForm(evt) {
   evt.preventDefault();
   profileName.textContent = nameformUserProfile.value;
   profileProfession.textContent = professionformUserProfile.value;
   closePopup(popupTypeEdit);
-}
-
-function createCard(item) {
-  const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
-  const cardImage = cardElement.querySelector('.element__image');
-  const deleteButton = cardElement.querySelector('.element__remove');
-  const likeButton = cardElement.querySelector('.element__like');
-  cardImage.addEventListener("click", () => openImagePopup(item));
-  deleteButton.addEventListener("click", deleteCard);
-  likeButton.addEventListener("click", likeToggle);
-  cardElement.querySelector('.element__name').textContent = item.name;
-  cardImage.src = item.link;
-  cardImage.alt = item.name;
-  return cardElement;
-}
-
-function likeToggle(event) {
-  event.target.classList.toggle('element__like_checked');
-}
-
-function deleteCard(evn) {
-  evn.target.closest('.element').remove();
 }
 
 function saveCardForm(evt) {
@@ -91,16 +64,20 @@ function saveCardForm(evt) {
     name: nameFormAddCard.value,
     link: linkFormAddCard.value
   };
-  const element = createCard(newCard);
+  const card = new Card(newCard);
+  const element = card.createCard();
   cardsContainer.prepend(element);
   closePopup(popupTypeAdd);
 }
 
-// Block 
 initialCards.forEach(item => {
-  const element = createCard(item);
+  const card = new Card(item);
+  const element = card.createCard();
   cardsContainer.append(element);
 });
+
+enableValidation(config);
+//new FormValidator(config).enableValidation();
 
 formUserProfile.addEventListener('submit', saveProfileForm);
 formAddCard.addEventListener('submit', saveCardForm);
