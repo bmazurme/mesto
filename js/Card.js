@@ -1,13 +1,15 @@
 import {lockButton} from './FormValidator.js';
 import {config, settings} from './config.js';
 import {cardsContainer, formAddCard, formAddName, formAddLink, popupTypeAdd} from './index.js';
-import {formUserProfile as profile, popupTypeEdit, formUserName, formUserProfession, profileName, profileProfession} from './index.js';
+import {formUserProfile as profile, popupTypeEdit, formUserName, 
+  formUserProfession, profileName, profileProfession} from './index.js';
+
 class BaseCard {
   constructor() {
-
+    
   }
 
-  keydownEsc(popup, evt) {
+  _keydownEsc(popup, evt) {
     if (evt.key === 'Escape') {
       this.closePopup(popup);
     }
@@ -15,13 +17,13 @@ class BaseCard {
   
   openPopup(popup) {
     document.addEventListener('keydown', 
-      (evt) => baseCard.keydownEsc(popup, evt));
+      (evt) => this._keydownEsc(popup, evt));
     popup.classList.add('popup_active');
   }
   
   closePopup(popup) {
     document.removeEventListener('keydown', 
-      (evt) => baseCard.keydownEsc(popup, evt));
+      (evt) => this._skeydownEsc(popup, evt));
     popup.classList.remove('popup_active');
   }
 
@@ -69,7 +71,6 @@ export class Card extends BaseCard{
     slideImage.alt = this._name;
     super.getCloseButton(currentSlide, this._closeButton).addEventListener('click', 
       () => super.closePopup(currentSlide));
-
     super.openPopup(currentSlide);
   }
   
@@ -92,12 +93,13 @@ export class Card extends BaseCard{
 export class UserCard extends BaseCard {
   constructor() {
     super();
+    this._closeButton = settings.closeButton;
   }
 
   openUserProfilePopup() {
     formUserName.value = profileName.textContent;
     formUserProfession.value = profileProfession.textContent;
-    super.getCloseButton(popupTypeEdit, '.popup__close')
+    super.getCloseButton(popupTypeEdit, this._closeButton)
       .addEventListener('click', () => super.closePopup(popupTypeEdit));
       profile.addEventListener('submit', new UserCard().saveProfileForm);
     super.openPopup(popupTypeEdit);
@@ -114,12 +116,14 @@ export class UserCard extends BaseCard {
 export class SlideCard extends BaseCard {
   constructor() {
     super();
+    this._formSave = settings.formSave;
+    this._closeButton = settings.closeButton;
   }
 
   openAddCardPopup() {
     formAddCard.reset();
-    lockButton(super.getSaveButton(formAddCard, '.form__save'), config.inactiveButtonClass);
-    super.getCloseButton(popupTypeAdd, '.popup__close').addEventListener('click', 
+    lockButton(super.getSaveButton(formAddCard, this._formSave), config.inactiveButtonClass);
+    super.getCloseButton(popupTypeAdd, this._closeButton).addEventListener('click', 
       () => super.closePopup(popupTypeAdd));
     const slideCard = new SlideCard();
     formAddCard.addEventListener('submit', slideCard.saveCardForm);
@@ -138,8 +142,6 @@ export class SlideCard extends BaseCard {
     super.closePopup(popupTypeAdd);
   }
 }
-
-const baseCard = new BaseCard();
 
 document.addEventListener('mousedown', function (evt) {
   if (evt.target.classList.contains('popup')) {

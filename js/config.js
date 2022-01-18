@@ -14,5 +14,6 @@ export const settings = {
   slideImage: '.slide__image',
   cardName: '.element__name',
   cardLike: 'element__like_checked',
-  element: '.element'
+  element: '.element',
+  formSave: '.form__save'
 };

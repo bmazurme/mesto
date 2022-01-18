@@ -16,8 +16,10 @@ class FormValidator {
     const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
     const buttonElement = formElement.querySelector(config.submitButtonSelector);
     this._toggleButtonState(config, inputList, buttonElement)
-    const checkInputValidity = (config, formElement, inputElemen) => this._checkInputValidity(config, formElement, inputElemen);
-    const toggleButtonState = (config, inputList, buttonElement) => this._toggleButtonState(config, inputList, buttonElement)
+    const checkInputValidity = (config, formElement, inputElemen) => 
+      this._checkInputValidity(config, formElement, inputElemen);
+    const toggleButtonState = (config, inputList, buttonElement) => 
+      this._toggleButtonState(config, inputList, buttonElement)
 
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', function () {
@@ -66,7 +68,6 @@ class FormValidator {
   };
 }
 export const formValidator = new FormValidator();
-
 export function lockButton(currentButton, valueFromObjConfig) {
   currentButton.classList.add(valueFromObjConfig);
   currentButton.disabled = true;

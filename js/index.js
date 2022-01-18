@@ -12,7 +12,6 @@ export const popupTypeEdit = document.querySelector('.popup_type_edit');
 export const formUserProfile = document.querySelector('.form_type_edit');
 export const formUserName = formUserProfile.querySelector('.form__input_type_name');
 export const formUserProfession = formUserProfile.querySelector('.form__input_type_profession');
-
 export const profileName = document.querySelector('.profile__name');
 export const profileProfession = document.querySelector('.profile__profession');
 
@@ -25,6 +24,9 @@ initialCards.forEach(item => {
   cardsContainer.append(element);
 });
 
+const slideCard = new SlideCard();
+const userCard =  new UserCard();
+
 formValidator.enableValidation(config);
-addButton.addEventListener('click',  new SlideCard().openAddCardPopup);
-editButton.addEventListener('click', new UserCard().openUserProfilePopup);
+addButton.addEventListener('click', () => slideCard.openAddCardPopup());
+editButton.addEventListener('click', () => userCard.openUserProfilePopup());
