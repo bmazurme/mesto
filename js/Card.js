@@ -1,10 +1,12 @@
 import { settings } from './config.js';
 
 export class Card {
-  constructor(item, cardTemplate) {
+  constructor(item, cardTemplate, openPopup, closePopup) {
     this._name = item.name;
     this._link = item.link;
     this._cardTemplate = cardTemplate;
+    this._openPopup = openPopup;
+    this._closePopup = closePopup
     this._typeSlide = settings.typeSlide;
     this._slideName = settings.slideName;
     this._slideImage = settings.slideImage;
@@ -31,24 +33,6 @@ export class Card {
 
   _getCloseButton(popup, popupClose) {
     return popup.querySelector(popupClose);
-  }
-
-  _keydownEsc(popup, evt) {
-    if (evt.key === 'Escape') {
-      this._closePopup(popup);
-    }
-  }
-  
-  _openPopup(popup) {
-    document.addEventListener('keydown', 
-      (evt) => this._keydownEsc(popup, evt));
-    popup.classList.add(this._popupActive);
-  }
-  
-  _closePopup(popup) {
-    document.removeEventListener('keydown', 
-      (evt) => this._skeydownEsc(popup, evt));
-    popup.classList.remove(this._popupActive);
   }
 
   _openImagePopup() {

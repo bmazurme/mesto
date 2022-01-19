@@ -11,37 +11,38 @@ const nameformUserProfile = formUserProfile.querySelector('.form__input_type_nam
 const professionformUserProfile = formUserProfile.querySelector('.form__input_type_profession');
 const nameFormAddCard = formAddCard.querySelector('.form__input_type_name');
 const linkFormAddCard = formAddCard.querySelector('.form__input_type_link');
-const popupTypeSlide = document.querySelector('.popup_type_slide');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
 const popupTypeAdd = document.querySelector('.popup_type_add');
-const closeButtonSlide = popupTypeSlide.querySelector('.popup__close');
-const closeButtonEdit = popupTypeEdit.querySelector('.popup__close');
-const closeButtonAdd = popupTypeAdd.querySelector('.popup__close');
 const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const cardsContainer = document.querySelector('.elements');
 const saveButton = formAddCard.querySelector('.form__save');
-const formList = Array.from(document.querySelectorAll(config.formSelector));
+const popups = document.querySelectorAll('.popup');
 
-function openPopup(popup) {
-  document.addEventListener('keydown', (evt) => keydownEsc(popup, evt));
+const userFormValidator = new FormValidator(config, formUserProfile);
+const cardFormValidator = new FormValidator(config, formAddCard);
+userFormValidator.enableValidation();
+cardFormValidator.enableValidation();
+
+const openPopup = (popup) => {
+  document.addEventListener('keydown', closeByEscape);
   popup.classList.add('popup_active');
 }
 
-function closePopup(popup) {
-  document.removeEventListener('keydown', (evt) => keydownEsc(popup, evt));
+const closePopup = (popup) => {
   popup.classList.remove('popup_active');
+  document.removeEventListener('keydown', closeByEscape);
 }
 
-function keydownEsc(popup, evt) {
+function closeByEscape(evt) {
   if (evt.key === 'Escape') {
-      closePopup(popup);
+    const openedPopup = document.querySelector('.popup_active');
+    closePopup(openedPopup);
   }
 }
 
 function openUserProfilePopup() {
-  const formValidator = new FormValidator(config, formUserProfile);
-  formValidator.resetValidation();
+  userFormValidator.resetValidation();
   nameformUserProfile.value = profileName.textContent;
   professionformUserProfile.value = profileProfession.textContent;
   openPopup(popupTypeEdit);
@@ -49,8 +50,7 @@ function openUserProfilePopup() {
 
 function openAddCardPopup() {
   formAddCard.reset();
-  const formValidator = new FormValidator(config, formAddCard);
-  formValidator.resetValidation();
+  cardFormValidator.resetValidation();
   saveButton.classList.add('form__save_inactive');
   openPopup(popupTypeAdd); 
 }
@@ -74,7 +74,7 @@ function saveCardForm(evt) {
 }
 
 function generateCard(item) {
-  const card = new Card(item, '#card-template');
+  const card = new Card(item, '#card-template', openPopup, closePopup);
   const cardElement = card.createCard();
   return cardElement
 }
@@ -83,9 +83,17 @@ formUserProfile.addEventListener('submit', saveProfileForm);
 formAddCard.addEventListener('submit', saveCardForm);
 editButton.addEventListener('click', openUserProfilePopup);
 addButton.addEventListener('click', openAddCardPopup);
-closeButtonSlide.addEventListener('click', () => closePopup(popupTypeSlide));
-closeButtonEdit.addEventListener('click', () => closePopup(popupTypeEdit));
-closeButtonAdd.addEventListener('click', () =>closePopup(popupTypeAdd));
+
+popups.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+        if (evt.target.classList.contains('popup_active')) {
+          closePopup(popup);
+        }
+        if (evt.target.classList.contains('popup__close')) {
+          closePopup(popup);
+        }
+    })
+});
 
 document.addEventListener('mousedown', function (evt) {
   if (evt.target.classList.contains('popup')) {
@@ -97,10 +105,3 @@ initialCards.forEach(item => {
   const element = generateCard(item);
   cardsContainer.append(element);
 });
-
-formList.forEach((formElement) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
-  new FormValidator(config, formElement).enableValidation();
-}); 
