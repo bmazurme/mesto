@@ -8,12 +8,34 @@ export class FormValidator {
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    this._setEventListeners(this._config, this._formElement);
+    this._setEventListeners(this._formElement);
   }
 
-  _setEventListeners(config, formElement) {
-    const inputList = Array.from(formElement.querySelectorAll(this._config.inputSelector));
-    const buttonElement = formElement.querySelector(this._config.submitButtonSelector);
+  resetValidation() {    
+    this._resetButtonState();
+    const inputList = Array.from(this._formElement
+      .querySelectorAll(`.${this._config.errorClass}`));
+    inputList.forEach((inputElement) => {
+      this._hideError(inputElement);
+    });
+  }
+
+  _resetButtonState() {
+    const currentButton = this._formElement
+      .querySelector(this._config.submitButtonSelector);
+    currentButton.classList.add(this._config.valueFromObjConfig);
+    currentButton.disabled = true;
+  }
+  
+  _hideError(inputElement) {
+    inputElement.textContent = '';
+  }
+
+  _setEventListeners(formElement) {
+    const inputList = Array.from(formElement
+      .querySelectorAll(this._config.inputSelector));
+    const buttonElement = formElement
+      .querySelector(this._config.submitButtonSelector);
     this._toggleButtonState(inputList, buttonElement)
     const checkInputValidity = (formElement, inputElemen) => 
       this._checkInputValidity(formElement, inputElemen);
@@ -45,14 +67,16 @@ export class FormValidator {
   }
 
   _showInputError (formElement, inputElement, errorMessage) {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    const errorElement = formElement
+    .querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._config.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._config.errorClass);
   };
   
   _hideInputError (formElement, inputElement) {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    const errorElement = formElement
+    .querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._config.inputErrorClass);
     errorElement.classList.remove(this._config.errorClass);
     errorElement.textContent = '';
@@ -65,9 +89,4 @@ export class FormValidator {
       this._hideInputError(formElement, inputElement);
     }
   };
-}
-
-export function lockButton(currentButton, valueFromObjConfig) {
-  currentButton.classList.add(valueFromObjConfig);
-  currentButton.disabled = true;
 }

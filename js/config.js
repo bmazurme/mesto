@@ -17,3 +17,5 @@ export const settings = {
   element: '.element',
   formSave: '.form__save'
 };
+
+//'.element__image' '.element__remove' '.element__like' 'popup_active'
