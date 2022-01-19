@@ -11,13 +11,17 @@ export class Card {
     this._closeButton = settings.closeButton;
     this._cardLike = settings.cardLike;
     this._element = settings.element;
+    this._popupActive = settings.popupActive;
+    this._elementLike = settings.elementLike;
+    this._elementRemove = settings.elementRemove;
+    this._elementImage = settings.elementImage;
   }
 
   _getPopupSlide(typeSlide) {
     return document.querySelector(typeSlide);
   }
 
-  _likeToggle( event) {
+  _likeToggle(event) {
     event.target.classList.toggle(this._cardLike);
   }
 
@@ -38,13 +42,13 @@ export class Card {
   _openPopup(popup) {
     document.addEventListener('keydown', 
       (evt) => this._keydownEsc(popup, evt));
-    popup.classList.add('popup_active');
+    popup.classList.add(this._popupActive);
   }
   
   _closePopup(popup) {
     document.removeEventListener('keydown', 
       (evt) => this._skeydownEsc(popup, evt));
-    popup.classList.remove('popup_active');
+    popup.classList.remove(this._popupActive);
   }
 
   _openImagePopup() {
@@ -61,9 +65,9 @@ export class Card {
   createCard() {
     const cardElement = document.querySelector(this._cardTemplate)
       .content.querySelector(settings.element).cloneNode(true);
-    const cardImage = cardElement.querySelector('.element__image');
-    const deleteButton = cardElement.querySelector('.element__remove');
-    const likeButton = cardElement.querySelector('.element__like');
+    const cardImage = cardElement.querySelector(this._elementImage);
+    const deleteButton = cardElement.querySelector(this._elementRemove);
+    const likeButton = cardElement.querySelector(this._elementLike);
 
     cardElement.querySelector(settings.cardName).textContent = this._name;
     cardImage.src = this._link;

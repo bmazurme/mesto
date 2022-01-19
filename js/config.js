@@ -14,8 +14,10 @@ export const settings = {
   slideImage: '.slide__image',
   cardName: '.element__name',
   cardLike: 'element__like_checked',
+  formSave: '.form__save',
+  popupActive: 'popup_active',
   element: '.element',
-  formSave: '.form__save'
+  elementLike: '.element__like',
+  elementRemove: '.element__remove',
+  elementImage: '.element__image'
 };
-
-//'.element__image' '.element__remove' '.element__like' 'popup_active'
