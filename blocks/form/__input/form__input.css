@@ -1,4 +1,5 @@
 .form__input {
+  outline: none;
   font-family: Inter;
   margin-top: 0;
   margin-bottom: 0;
