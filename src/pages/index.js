@@ -1,11 +1,12 @@
-import './pages/index.css'; // добавьте импорт главного файла стилей 
-import { initialCards } from './js/initialCards.js';
-import { config } from './js/config.js';
-import { Card } from './js/components/Card.js';
-import { FormValidator } from './js/components/FormValidator.js';
-import { Section } from './js/components/Section.js';
-import { PopupWithForm } from './js/components/PopupWithForm.js';
-import { UserInfo } from './js/components/UserInfo.js';
+import './index.css'; // добавьте импорт главного файла стилей 
+import { initialCards } from '../js/initialCards.js';
+import { config } from '../js/config.js';
+import { Card } from '../js/components/Card.js';
+import { FormValidator } from '../js/components/FormValidator.js';
+import { Section } from '../js/components/Section.js';
+import { PopupWithForm } from '../js/components/PopupWithForm.js';
+import { PopupWithImage } from '../js/components/PopupWithImage.js';
+import { UserInfo } from '../js/components/UserInfo.js';
 
 const addButton = document.querySelector('.profile__add');
 const editButton = document.querySelector('.profile__edit');
@@ -22,6 +23,10 @@ const userInfo = new UserInfo({name: '.profile__name', profession: '.profile__pr
 userFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 
+const handleCardClick = (item) => {
+  new PopupWithImage(item, '.popup_type_slide').open();
+};
+
 const saveUser = (evt, val) => {
   evt.preventDefault();
   const {name, profession} = val;
@@ -33,13 +38,13 @@ const saveCard = (evt, val) => {
   evt.preventDefault();
   const {name, link} = val;
   const obj = {name: name.value, link: link.value};
-  const card = new Card(obj, '#card-template');
+  const card = new Card({item: obj, cardTemplate: '#card-template', handleCardClick: handleCardClick});
   const item = card.createCard();
   defaultCardList.addItem(item);
 }
 
-const cardPopupWithForm = new PopupWithForm(saveCard, '.popup_type_add');
-const userPopupWithForm = new PopupWithForm(saveUser, '.popup_type_edit');
+const cardPopupWithForm = new PopupWithForm({submit: saveCard, popupSelector: '.popup_type_add'} );
+const userPopupWithForm = new PopupWithForm({submit: saveUser, popupSelector: '.popup_type_edit'});
 
 function openEditCardPopup() {
   userFormValidator.resetValidation();
@@ -55,10 +60,12 @@ function openAddCardPopup() {
   cardPopupWithForm.open();
 }
 
+
+
 const defaultCardList = new Section({
   items: initialCards,
   renderer: (item) => {
-      const card = new Card(item, '#card-template');
+      const card = new Card({item: item, cardTemplate: '#card-template', handleCardClick: handleCardClick});
       const cardElement = card.createCard();
       defaultCardList.addItem(cardElement);
     }
