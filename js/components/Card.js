@@ -1,5 +1,5 @@
-import { settings } from './config.js';
-import { PopupWithImage } from './components/PopupWithImage.js';
+import { settings } from '../config.js';
+import { PopupWithImage } from './PopupWithImage.js';
 
 export class Card {
   constructor(item, cardTemplate) {
