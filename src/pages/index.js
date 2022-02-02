@@ -60,8 +60,6 @@ function openAddCardPopup() {
   cardPopupWithForm.open();
 }
 
-
-
 const defaultCardList = new Section({
   items: initialCards,
   renderer: (item) => {
