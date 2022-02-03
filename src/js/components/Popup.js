@@ -1,12 +1,15 @@
+import { settings } from "../config";
 export class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
+    this._openPopup = settings.openPopup;
+    this._closePopup = settings.closePopup;
   }
 
   _handleButtonClose = (evt) => {
-    if (evt.target.classList.contains('popup_active') || 
-        evt.target.classList.contains('popup__close')) {
+    if (evt.target.classList.contains(this._openPopup) || 
+        evt.target.classList.contains(this._closePopup)) {
       this.close(this._popup);
     }
   };
@@ -24,11 +27,11 @@ export class Popup {
 
   open() {
     this.setEventListeners();
-    this._popup.classList.add('popup_active');
+    this._popup.classList.add(this._openPopup);
   }
 
   close() {
-    this._popup.classList.remove('popup_active');
+    this._popup.classList.remove(this._openPopup);
     this._popup.removeEventListener('mousedown', this._handleButtonClose);
     document.removeEventListener('keydown', this._handleEscClose);
   }
