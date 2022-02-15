@@ -1,6 +1,7 @@
 .element__like {
   align-self: flex-end;
-  margin: auto 5px auto auto;
+  /* margin: auto 5px auto auto; */
+  margin: 0%;
   padding: 0;
   width: 22px;
   height: 19px;

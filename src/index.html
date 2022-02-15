@@ -17,7 +17,11 @@
       
       <main class="main">
         <section class="profile">
+          <div class="profile__image">
+        
           <img class="avatar" src="<%=require('./images/image.jpg')%>" alt="Аватар">
+        </div>
+
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <p class="profile__profession">Исследователь океана</p>
@@ -91,13 +95,48 @@
       </div>
     </div>
 
+
+    <div class="popup popup_type_delete">
+      <div class="popup__container">
+
+        <button aria-label="Close" class="popup__close" type="button"></button>
+        <form class="form form_type_delete" name="delete-form" novalidate>
+          <h2 class="form__title">Вы уверены?</h2>
+          <button aria-label="Delete" class="form__delete form__submit" type="submit">Да</button>
+        </form>
+        
+      </div>
+    </div>
+
+    <div class="popup popup_type_edit-avatar">
+      <div class="popup__container">
+        <button aria-label="Close" class="popup__close" type="button"></button>
+        <form class="form form_type_edit-avatar" name="edit-avatar-form" novalidate>
+          <h2 class="form__title">Обновить аватар</h2>
+          
+          <div class="form__box">
+          <input placeholder="Ссылка на картинку" name="avatar" class="form__input
+            form__input_type_link" id="link-input" required type="url">
+          <span class="link-input-error form__input-error"></span>
+        </div>
+
+          <button aria-label="Save" class="form__save form__submit" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
     <template id="card-template">
       <div class="element">
         <button aria-label="Remove" class="element__remove" type="button"></button>
         <img class="element__image" alt="image">
         <div class="element__group">
           <h2 class="element__name"></h2>
-          <button aria-label="Like" class="element__like" name="button-like"></button>
+
+          <div class="element__column">
+            <button aria-label="Like" class="element__like" name="button-like"></button>
+            <p class="element__counter">0</p>
+          </div>
+
         </div>
       </div>
     </template>

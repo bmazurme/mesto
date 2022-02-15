@@ -1,0 +1,20 @@
+.profile__image {
+  height: 120px;
+  width: 120px;
+  display: flex;
+  align-self: center;
+}
+
+.profile__image:hover::before {
+  content: '';
+  cursor: pointer;
+  height: 120px;
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.8);
+  background-image: url(../../../images/Vector.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 26px;
+  position: absolute;
+  border-radius: 50%;
+}

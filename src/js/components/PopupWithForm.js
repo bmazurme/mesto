@@ -1,5 +1,6 @@
 import { Popup } from './Popup.js'; 
 
+import { settings } from '../config.js';
 export class PopupWithForm extends Popup {
   constructor({submit, popupSelector}) {
     super(popupSelector);
@@ -7,7 +8,7 @@ export class PopupWithForm extends Popup {
     this._popup = document.querySelector(this._popupSelector);
     this._submit = (evt, val) => { submit(evt, this._getInputValues()); this.close() };
     this._popup = document.querySelector(this._popupSelector);
-    this._form = this._popup.querySelector('.form');
+    this._form = this._popup.querySelector(settings.form);//'.form');
   }
 
   close() {

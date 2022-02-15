@@ -7,12 +7,15 @@
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/avatar/avatar.css);
 @import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__image/profile__image.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__profession/profile__profession.css);
 @import url(../blocks/profile/__edit/profile__edit.css);
 @import url(../blocks/profile/__add/profile__add.css);
 @import url(../blocks/elements/elements.css);
 @import url(../blocks/element/element.css);
+@import url(../blocks/element/__counter/element__counter.css);
+@import url(../blocks/element/__column/element__column.css);
 @import url(../blocks/element/__remove/element__remove.css);
 @import url(../blocks/element/__image/element__image.css);
 @import url(../blocks/element/__name/element__name.css);
@@ -32,6 +35,7 @@
 @import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/form/__input-error/form__input-error.css);
 @import url(../blocks/form/__save/form__save.css);
+@import url(../blocks/form/__delete/form__delete.css);
 @import url(../blocks/form/__save/_inactive/form__save_inactive.css);
 @import url(../blocks/slide/slide.css);
 @import url(../blocks/slide/__image/slide__image.css);

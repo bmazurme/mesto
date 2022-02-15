@@ -8,6 +8,11 @@ export const config = {
 };
 
 export const settings = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort36',
+  clientToken: 'fcfa5c3a-c07d-49f3-a47d-0099ff285712',
+  form: '.form',
+  formDelete: '.form__delete',
+  avatar: '.avatar',
   slideType: '.popup_type_slide',
   slideName: '.slide__name',
   slideImage: '.slide__image',
@@ -16,6 +21,7 @@ export const settings = {
   openPopup: 'popup_active',
   closePopup: 'popup__close',
   closeButton: '.popup__close',
+  popupModal: '.popup_type_delete',
   popupTypeAdd: '.popup_type_add',
   popupTypeEdit: '.popup_type_edit',
   cardTemplate: '#card-template',
@@ -32,5 +38,6 @@ export const settings = {
   element: '.element',
   elementLike: '.element__like',
   elementRemove: '.element__remove',
-  elementImage: '.element__image'
+  elementImage: '.element__image',
+  elementCounter: '.element__counter'
 };
