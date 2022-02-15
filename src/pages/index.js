@@ -36,6 +36,12 @@ avatarFormValidator.enableValidation();
 userFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 
+const handleCardDelete = (cardId) => api.deleteCard(cardId)
+  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
+
 const handleCardClick = (item) => {
   new PopupWithImage(item, settings.slideType).open();
 };
@@ -91,7 +97,7 @@ const saveCard = (evt, val) => {
     .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
     .then((data) => {
       const card = new Card({item: data, cardTemplate: settings.cardTemplate,
-        handleCardClick: handleCardClick, handleLikeToggle:handleLikeToggle, api: api, userId });
+        handleCardClick, handleLikeToggle, handleCardDelete, userId });
       const cardElement = card.createCard();
       defaultCardList.addItem(cardElement);
     })
@@ -126,21 +132,22 @@ function openEditAvatarPopup() {
 function openEditCardPopup() {
   userFormValidator.resetValidation();
   api.getUser()
-  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-  .then((data) => {
-    inputName.value = data.name;
-    inputProfession.value = data.about;
-    userPopupWithForm.open();
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
+    .then((data) => {
+      inputName.value = data.name;
+      inputProfession.value = data.about;
+      userPopupWithForm.open();
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    });
 }
 
 function openAddCardPopup() {
   cardFormValidator.resetValidation();
   cardPopupWithForm.open();
 }
+
 api.getUser()
   .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
   .then((data) => {
@@ -159,7 +166,7 @@ api.getInitialCards()
       items: initialCards,
       renderer: (item) => {
           const card = new Card({item: item, cardTemplate: settings.cardTemplate,
-            handleCardClick: handleCardClick, handleLikeToggle:handleLikeToggle, api: api, userId });
+            handleCardClick, handleLikeToggle, handleCardDelete, userId });
           const cardElement = card.createCard();
           defaultCardList.addItem(cardElement);
         }

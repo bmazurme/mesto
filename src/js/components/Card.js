@@ -2,7 +2,7 @@ import { settings } from '../config.js';
 import { Modal } from './PopupModal.js';
 
 export class Card {
-  constructor({item, cardTemplate, handleCardClick, handleLikeToggle, api, userId}) {
+  constructor({item, cardTemplate, handleCardClick, handleLikeToggle, handleCardDelete, userId}) {
     this._item = item;
     this._cardTemplate = cardTemplate;
     this._cardLike = settings.cardLike;
@@ -11,18 +11,14 @@ export class Card {
     this._elementRemove = settings.elementRemove;
     this._elementImage = settings.elementImage;
     this._handleCardClick = handleCardClick;
-    this._api = api;
     this.userId = userId;
     this._handleLikeToggle = handleLikeToggle;
+    this._handleCardDelete = handleCardDelete;
   }
 
   _openModal(evt) {
     const deleteCard = (evn) => {
-      this._api.deleteCard(this._item._id)
-        .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-        .catch((err) => {
-          console.log(err); // выведем ошибку в консоль
-        });
+      this._handleCardDelete(this._item._id);
       evt.target.closest(this._element).remove();
       this._element = null;
     };
@@ -46,8 +42,11 @@ export class Card {
     deleteButton.addEventListener("click", (evt) => this._openModal(evt));
     likeButton.addEventListener("click", (evt) => this._handleLikeToggle(evt, this._cardLike, this._item._id, this._counter ));
     cardImage.addEventListener("click", () => this._handleCardClick(this._item));
-    if (this.userId !== this._item.owner._id) {deleteButton.remove()}
+    this._del(deleteButton)
+  }
 
+  _del(deleteButton) {
+    if (this.userId !== this._item.owner._id) {deleteButton.remove()}
   }
 
   _getTemplateCard() {
