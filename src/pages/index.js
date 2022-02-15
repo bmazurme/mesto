@@ -18,6 +18,7 @@ const inputName = editForm.querySelector(settings.inputName);
 const inputProfession = editForm.querySelector(settings.inputProfession);
 const cardListSelector = settings.elements;
 let defaultCardList = null;
+let userId = null;
 
 const api = new Api({
   baseUrl: settings.baseUrl,
@@ -38,6 +39,25 @@ cardFormValidator.enableValidation();
 const handleCardClick = (item) => {
   new PopupWithImage(item, settings.slideType).open();
 };
+
+const handleLikeToggle = (evt, cardLike, cardId, counter ) => {
+  if (evt.target.classList.contains(cardLike)) {
+    api.deleteLike(cardId)
+      .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
+      .then(data => counter.textContent = data.likes.length)//setCounter(data.likes.length))
+      .catch((err) => {
+        console.log(err); // выведем ошибку в консоль
+      });
+  } else {
+    api.putLike(cardId)
+      .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
+      .then(data => counter.textContent = data.likes.length)//setCounter(data.likes.length))
+      .catch((err) => {
+        console.log(err); // выведем ошибку в консоль
+      });
+  }
+  evt.target.classList.toggle(cardLike);
+}
 
 function renderLoading(isLoading, form) {
   const button = form.querySelector(settings.buttonSave);
@@ -71,9 +91,9 @@ const saveCard = (evt, val) => {
     .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
     .then((data) => {
       const card = new Card({item: data, cardTemplate: settings.cardTemplate,
-        handleCardClick: handleCardClick, api: api});
-      const item = card.createCard();
-      defaultCardList.addItem(item);
+        handleCardClick: handleCardClick, handleLikeToggle:handleLikeToggle, api: api, userId });
+      const cardElement = card.createCard();
+      defaultCardList.addItem(cardElement);
     })
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
@@ -121,6 +141,16 @@ function openAddCardPopup() {
   cardFormValidator.resetValidation();
   cardPopupWithForm.open();
 }
+api.getUser()
+  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
+  .then((data) => {
+    userId = data._id;
+    userInfo.setUserInfo({name: data.name, about: data.about, avatar: data.avatar});
+    userInfo.setUserAvatar({name: data.name, about: data.about, avatar: data.avatar});
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
 
 api.getInitialCards()
   .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
@@ -129,7 +159,7 @@ api.getInitialCards()
       items: initialCards,
       renderer: (item) => {
           const card = new Card({item: item, cardTemplate: settings.cardTemplate,
-            handleCardClick: handleCardClick, api: api});
+            handleCardClick: handleCardClick, handleLikeToggle:handleLikeToggle, api: api, userId });
           const cardElement = card.createCard();
           defaultCardList.addItem(cardElement);
         }
@@ -145,13 +175,3 @@ api.getInitialCards()
 editButton.addEventListener('click', openEditCardPopup);
 addButton.addEventListener('click', openAddCardPopup);
 editAvatar.addEventListener('click', openEditAvatarPopup);
-
-api.getUser()
-  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-  .then((data) => {
-    userInfo.setUserInfo({name: data.name, about: data.about, avatar: data.avatar});
-    userInfo.setUserAvatar({name: data.name, about: data.about, avatar: data.avatar});
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
