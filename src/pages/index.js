@@ -126,14 +126,14 @@ const deleteCardCallback = (evt, element, card) => {
   evt.preventDefault();
   popupWithConfirm.renderLoading(false, 'Удаление...')
   api.deleteCard(card._item._id)
-  .then(() => {
-    element.remove();
-    popupWithConfirm.close();
-   })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  })
-  .finally(() => popupWithConfirm.renderLoading(false, 'Да'));
+    .then(() => {
+      element.remove();
+      popupWithConfirm.close();
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+    .finally(() => popupWithConfirm.renderLoading(false, 'Да'));
 };
 
 const cardPopupWithForm = new PopupWithForm({submit: saveCard, popupSelector: settings.popupTypeAdd});
