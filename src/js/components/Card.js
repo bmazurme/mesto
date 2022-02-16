@@ -23,22 +23,22 @@ export class Card {
   _setCounter() {
     if (Array.isArray(this._item.likes)) {
       this._counter.textContent = this._item.likes.length;
-      const even = (element) => element._id === this._item.owner._id;
+      const even = (element) => element._id === this._userId;
       if (this._item.likes.some(even)) {
         this._likeButton.classList.toggle(this._cardLike);
       }
     }
   }
 
-  _setEventListener(cardElement, cardImage) {
-    this._likeButton = cardElement.querySelector(this._elementLike);
-    this._deleteButton = cardElement.querySelector(this._elementRemove);
-    this._counter = cardElement.querySelector(settings.elementCounter);
+  _setEventListener() {
+    this._likeButton = this._cardElement.querySelector(this._elementLike);
+    this._deleteButton = this._cardElement.querySelector(this._elementRemove);
+    this._counter = this._cardElement.querySelector(settings.elementCounter);
     this._counter.textContent = 0;
     this._setCounter();
     this._deleteButton.addEventListener("click", (evt) => this._openPopupWithConfirm(evt));
-    this._likeButton.addEventListener("click", (evt) => this._handleLikeToggle(evt, this._cardLike, this._item._id, this._counter ));
-    cardImage.addEventListener("click", () => this._handleCardClick(this._item));
+    this._likeButton.addEventListener("click", (evt) => this._handleLikeToggle(evt, this));
+    this._cardImage.addEventListener("click", () => this._handleCardClick(this._item));
     this._deleteNotOwner()
   }
 
@@ -52,12 +52,12 @@ export class Card {
   }
 
   createCard() {
-    const cardElement = this._getTemplateCard();
-    cardElement.querySelector(settings.cardName).textContent = this._item.name;
-    const cardImage = cardElement.querySelector(this._elementImage);
-    cardImage.src = this._item.link;
-    cardImage.alt = this._item.name;
-    this._setEventListener(cardElement, cardImage);
-    return cardElement;
+    this._cardElement = this._getTemplateCard();
+    this._cardElement.querySelector(settings.cardName).textContent = this._item.name;
+    this._cardImage = this._cardElement.querySelector(this._elementImage);
+    this._cardImage.src = this._item.link;
+    this._cardImage.alt = this._item.name;
+    this._setEventListener();
+    return this._cardElement;
   }
 }

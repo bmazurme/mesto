@@ -9,9 +9,9 @@ import { PopupWithImage } from '../js/components/PopupWithImage.js';
 import { UserInfo } from '../js/components/UserInfo.js';
 import { PopupWithConfirm } from '../js/components/PopupWithConfirm';
 
-const editAvatarForm = document.querySelector('.form_type_edit-avatar');
+const editAvatarForm = document.querySelector(settings.formEditAvatar);
 const editForm = document.querySelector(settings.editForm);
-const editAvatar = document.querySelector('.profile__image');
+const editAvatar = document.querySelector(settings.profileImage);
 const addForm = document.querySelector(settings.addForm);
 const addButton = document.querySelector(settings.buttonAdd);
 const editButton = document.querySelector(settings.buttonEdit);
@@ -27,37 +27,46 @@ const api = new Api({
     authorization: settings.clientToken,
     'Content-Type': 'application/json'
   }
-}); 
+});
 
-const avatarFormValidator = new FormValidator(config, editAvatarForm);
-const userFormValidator = new FormValidator(config, editForm);
-const cardFormValidator = new FormValidator(config, addForm);
+const formValidators = {}
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement)
+    const formName = formElement.getAttribute('name')
+    formValidators[formName] = validator;
+   validator.enableValidation();
+  });
+};
+enableValidation(config);
+
 const popupWithImage = new PopupWithImage(settings.slideType);
-const userInfo = new UserInfo({name: settings.profileName, about: settings.profileProfession, avatar: settings.avatar});
-
-avatarFormValidator.enableValidation();
-userFormValidator.enableValidation();
-cardFormValidator.enableValidation();
+const userInfo = new UserInfo({
+  name: settings.profileName,
+  about: settings.profileProfession,
+  avatar: settings.avatar
+});
 
 const handleCardClick = (item) => {
   popupWithImage.open(item);
 };
 
-const handleLikeToggle = (evt, cardLike, cardId, counter ) => {
-  if (evt.target.classList.contains(cardLike)) {
-    api.changeLike(cardId, false)
+const handleLikeToggle = (evt, card) => {
+  if (evt.target.classList.contains(card._cardLike)) {
+    api.changeLike(card._item._id, false)
       .then(data => {
-        evt.target.classList.toggle(cardLike);
-         counter.textContent = data.likes.length
-        })
+        evt.target.classList.toggle(card._cardLike);
+        card._counter.textContent = data.likes.length
+      })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       });
   } else {
-    api.changeLike(cardId, true)//(cardId)
+    api.changeLike(card._item._id, true)//(cardId)
       .then(data => {
-        evt.target.classList.toggle(cardLike);
-        counter.textContent = data.likes.length
+        evt.target.classList.toggle(card._cardLike);
+        card._counter.textContent = data.likes.length
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -70,10 +79,7 @@ const saveUser = (evt, val) => {
   userPopupWithForm.renderLoading(true, 'Сохранение...')  
   const {name, profession} = val;
   const obj = {name: name, about: profession};
-  api.patchUser({
-    name: obj.name,
-    about: obj.about
-  })
+  api.patchUser({ name: obj.name, about: obj.about })
     .then(data => {
       userInfo.setUserInfo(data);
       userPopupWithForm.close();
@@ -107,7 +113,7 @@ const saveCard = (evt, val) => {
   const obj = {name: name, link: link};
   api.postCard(obj)
     .then((data) => {
-      renderer(data);
+      cardList.addItem(data);
       cardPopupWithForm.close();
     })
     .catch((err) => {
@@ -120,7 +126,7 @@ const deleteCardCallback = (evt, element, card) => {
   evt.preventDefault();
   popupWithConfirm.renderLoading(false, 'Удаление...')
   api.deleteCard(card._item._id)
-  .then((data) => {
+  .then(() => {
     element.remove();
     popupWithConfirm.close();
    })
@@ -132,16 +138,16 @@ const deleteCardCallback = (evt, element, card) => {
 
 const cardPopupWithForm = new PopupWithForm({submit: saveCard, popupSelector: settings.popupTypeAdd});
 const userPopupWithForm = new PopupWithForm({submit: saveUser, popupSelector: settings.popupTypeEdit});
-const avatarPopupWithForm = new PopupWithForm({submit: saveAvatar, popupSelector: '.popup_type_edit-avatar'});
-const popupWithConfirm = new PopupWithConfirm({ submit: deleteCardCallback, popupSelector: settings.popupModal});
+const avatarPopupWithForm = new PopupWithForm({submit: saveAvatar, popupSelector: settings.popupEditAvatar});
+const popupWithConfirm = new PopupWithConfirm({submit: deleteCardCallback, popupSelector: settings.popupModal});
 
 function openEditAvatarPopup() {
-  avatarFormValidator.resetValidation();
+  formValidators[ editAvatarForm.getAttribute('name') ].resetValidation()
   avatarPopupWithForm.open();
 }
 
 function openEditCardPopup() {
-  userFormValidator.resetValidation();
+  formValidators[ editForm.getAttribute('name') ].resetValidation()
   const {name, about} = userInfo.getUserInfo();
   inputName.value = name;
   inputProfession.value = about;
@@ -149,7 +155,7 @@ function openEditCardPopup() {
 }
 
 function openAddCardPopup() {
-  cardFormValidator.resetValidation();
+  formValidators[ addForm.getAttribute('name') ].resetValidation()
   cardPopupWithForm.open();
 }
 
@@ -170,11 +176,6 @@ Promise.all([api.getUser(), api.getCards()])
   });
 
 function renderer(item) {
-  const cardElement = createCard(item);
-  cardList.addItem(cardElement);
-}
-
-function createCard(item) {
   const card = new Card({
     item: item,
     cardTemplate: settings.cardTemplate,
