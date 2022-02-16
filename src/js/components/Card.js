@@ -10,8 +10,9 @@ export class Card {
     this._elementLike = settings.elementLike;
     this._elementRemove = settings.elementRemove;
     this._elementImage = settings.elementImage;
+    this._userId = userId;
+
     this._handleCardClick = handleCardClick;
-    this.userId = userId;
     this._handleLikeToggle = handleLikeToggle;
     this._handleCardDelete = handleCardDelete;
   }
@@ -25,28 +26,30 @@ export class Card {
     new Modal(deleteCard, settings.popupModal).open();
   }
 
-  _setEventListener(cardElement, cardImage) {
-    const likeButton = cardElement.querySelector(this._elementLike);
-    const deleteButton = cardElement.querySelector(this._elementRemove);
-    this._counter = cardElement.querySelector(settings.elementCounter);
-    this._counter.textContent = 0;
-
+  _setCounter() {
     if (Array.isArray(this._item.likes)) {
       this._counter.textContent = this._item.likes.length;
       const even = (element) => element._id === this._item.owner._id;
       if (this._item.likes.some(even)) {
-        likeButton.classList.toggle(this._cardLike);
+        this._likeButton.classList.toggle(this._cardLike);
       }
     }
-
-    deleteButton.addEventListener("click", (evt) => this._openModal(evt));
-    likeButton.addEventListener("click", (evt) => this._handleLikeToggle(evt, this._cardLike, this._item._id, this._counter ));
-    cardImage.addEventListener("click", () => this._handleCardClick(this._item));
-    this._del(deleteButton)
   }
 
-  _del(deleteButton) {
-    if (this.userId !== this._item.owner._id) {deleteButton.remove()}
+  _setEventListener(cardElement, cardImage) {
+    this._likeButton = cardElement.querySelector(this._elementLike);
+    this._deleteButton = cardElement.querySelector(this._elementRemove);
+    this._counter = cardElement.querySelector(settings.elementCounter);
+    this._counter.textContent = 0;
+    this._setCounter();
+    this._deleteButton.addEventListener("click", (evt) => this._openModal(evt));
+    this._likeButton.addEventListener("click", (evt) => this._handleLikeToggle(evt, this._cardLike, this._item._id, this._counter ));
+    cardImage.addEventListener("click", () => this._handleCardClick(this._item));
+    this._deleteNotOwner()
+  }
+
+  _deleteNotOwner() {
+    if (this._userId !== this._item.owner._id) {this._deleteButton.remove();}
   }
 
   _getTemplateCard() {

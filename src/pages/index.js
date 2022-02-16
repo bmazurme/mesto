@@ -122,7 +122,7 @@ function saveAvatar(evt, val) {
 
 const cardPopupWithForm = new PopupWithForm({submit: saveCard, popupSelector: settings.popupTypeAdd});
 const userPopupWithForm = new PopupWithForm({submit: saveUser, popupSelector: settings.popupTypeEdit});
-const avatarPopupWithForm = new  PopupWithForm({submit: saveAvatar, popupSelector: '.popup_type_edit-avatar'});
+const avatarPopupWithForm = new PopupWithForm({submit: saveAvatar, popupSelector: '.popup_type_edit-avatar'});
 
 function openEditAvatarPopup() {
   avatarFormValidator.resetValidation();
@@ -165,6 +165,7 @@ api.getInitialCards()
     defaultCardList = new Section({
       items: initialCards,
       renderer: (item) => {
+        console.log(item);
           const card = new Card({item: item, cardTemplate: settings.cardTemplate,
             handleCardClick, handleLikeToggle, handleCardDelete, userId });
           const cardElement = card.createCard();
