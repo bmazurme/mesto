@@ -3,16 +3,22 @@ export class Api {
     this._options = options;
   }
 
+  _checkResponse(res) {
+    res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  }
+
   getUser() {
     return fetch(`${this._options.baseUrl}/users/me`, {
         headers: this._options.headers
       })
+      .then(res => this._checkResponse(res));//(res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
   getInitialCards() {
     return fetch(`${this._options.baseUrl}/cards`, {
         headers: this._options.headers
       })
+      .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
   patchAvatar({avatar}) {
@@ -23,6 +29,7 @@ export class Api {
         avatar: avatar,
       })
     })
+    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
   patchUser({name, about}) {
@@ -34,6 +41,7 @@ export class Api {
         about: about
       })
     })
+    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
   deleteCard(cardId) {
@@ -41,20 +49,15 @@ export class Api {
       method: 'DELETE',  
       headers: this._options.headers,
     })
+    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  deleteLike(cardId) {
+  changeLike(cardId, value) {
     return fetch(`${this._options.baseUrl}/cards/${cardId}/likes`, {
-      method: 'DELETE',  
+      method: value ? 'PUT' : 'DELETE',  
       headers: this._options.headers,
     })
-  }
-
-  putLike(cardId) {
-    return fetch(`${this._options.baseUrl}/cards/${cardId}/likes`, {
-      method: 'PUT',  
-      headers: this._options.headers,
-    })
+    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
   postCard({name, link}) {
@@ -66,5 +69,6 @@ export class Api {
         link: link
       })
     })
+    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 }

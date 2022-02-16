@@ -37,7 +37,6 @@ userFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 
 const handleCardDelete = (cardId) => api.deleteCard(cardId)
-  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
   .catch((err) => {
     console.log(err); // выведем ошибку в консоль
   });
@@ -48,16 +47,14 @@ const handleCardClick = (item) => {
 
 const handleLikeToggle = (evt, cardLike, cardId, counter ) => {
   if (evt.target.classList.contains(cardLike)) {
-    api.deleteLike(cardId)
-      .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-      .then(data => counter.textContent = data.likes.length)//setCounter(data.likes.length))
+    api.changeLike(cardId, false)
+      .then(data => counter.textContent = data.likes.length)
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       });
   } else {
-    api.putLike(cardId)
-      .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
-      .then(data => counter.textContent = data.likes.length)//setCounter(data.likes.length))
+    api.changeLike(cardId, true)//(cardId)
+      .then(data => counter.textContent = data.likes.length)
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       });
@@ -79,7 +76,6 @@ const saveUser = (evt, val) => {
     name: obj.name,
     about: obj.about
   })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
     .then(data => userInfo.setUserInfo(data))
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
@@ -94,7 +90,6 @@ const saveCard = (evt, val) => {
   const obj = {name: name.value, link: link.value};
 
   api.postCard(obj)
-    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
     .then((data) => {
       const card = new Card({item: data, cardTemplate: settings.cardTemplate,
         handleCardClick, handleLikeToggle, handleCardDelete, userId });
@@ -112,7 +107,6 @@ function saveAvatar(evt, val) {
   renderLoading(true, editAvatarForm);
   const {avatar} = val;
   api.patchAvatar({avatar: avatar.value})
-    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
     .then((data) => userInfo.setUserAvatar(data))
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
@@ -132,7 +126,6 @@ function openEditAvatarPopup() {
 function openEditCardPopup() {
   userFormValidator.resetValidation();
   api.getUser()
-    .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
     .then((data) => {
       inputName.value = data.name;
       inputProfession.value = data.about;
@@ -149,7 +142,6 @@ function openAddCardPopup() {
 }
 
 api.getUser()
-  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
   .then((data) => {
     userId = data._id;
     userInfo.setUserInfo({name: data.name, about: data.about, avatar: data.avatar});
@@ -160,7 +152,6 @@ api.getUser()
   });
 
 api.getInitialCards()
-  .then(res => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)))
   .then((initialCards) => {
     defaultCardList = new Section({
       items: initialCards,
