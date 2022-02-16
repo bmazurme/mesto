@@ -1,5 +1,4 @@
 import { settings } from '../config.js';
-import { Modal } from './PopupModal.js';
 
 export class Card {
   constructor({item, cardTemplate, handleCardClick, handleLikeToggle, handleCardDelete, userId}) {
@@ -11,19 +10,14 @@ export class Card {
     this._elementRemove = settings.elementRemove;
     this._elementImage = settings.elementImage;
     this._userId = userId;
-
     this._handleCardClick = handleCardClick;
     this._handleLikeToggle = handleLikeToggle;
     this._handleCardDelete = handleCardDelete;
   }
 
-  _openModal(evt) {
-    const deleteCard = (evn) => {
-      this._handleCardDelete(this._item._id);
-      evt.target.closest(this._element).remove();
-      this._element = null;
-    };
-    new Modal(deleteCard, settings.popupModal).open();
+  _openPopupWithConfirm(evt) {
+    this._handleCardDelete.setCurrentCard(this, evt.target.closest(this._element));
+    this._handleCardDelete.open();
   }
 
   _setCounter() {
@@ -42,7 +36,7 @@ export class Card {
     this._counter = cardElement.querySelector(settings.elementCounter);
     this._counter.textContent = 0;
     this._setCounter();
-    this._deleteButton.addEventListener("click", (evt) => this._openModal(evt));
+    this._deleteButton.addEventListener("click", (evt) => this._openPopupWithConfirm(evt));
     this._likeButton.addEventListener("click", (evt) => this._handleLikeToggle(evt, this._cardLike, this._item._id, this._counter ));
     cardImage.addEventListener("click", () => this._handleCardClick(this._item));
     this._deleteNotOwner()

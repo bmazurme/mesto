@@ -7,16 +7,14 @@ export class UserInfo {
 
   getUserInfo() {
     const name = this._profileName.textContent;
-    const profession = this._profileProfession.textContent;
-    return {name, profession};
+    const about = this._profileProfession.textContent;
+    return {name, about};
   }
 
-  setUserInfo(obj) {
-    this._profileName.textContent = obj.name;
-    this._profileProfession.textContent = obj.about;
-  }
-
-  setUserAvatar(obj) {
-    this._avatar.src = obj.avatar;
+  setUserInfo({ name, about, avatar, _id }) {
+    this._profileName.textContent = name;
+    this._profileProfession.textContent = about;
+    this._avatar.src = avatar;
+    this._id = _id;
   }
 }

@@ -1,8 +1,16 @@
+import { Card } from "./Card";
+import { settings } from "../config";
+
 export class Section {
-  constructor({items, renderer}, containerSelector) {
+  constructor({items, renderer}, containerSelector, handleCardClick, handleLikeToggle, handleCardDelete, userId) {
     this._items = items;
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
+
+    this._handleCardClick = handleCardClick,
+    this._handleLikeToggle = handleLikeToggle,
+    this._popupWithConfirm = handleCardDelete,
+    this._userId = userId
   }
 
   _clear() {
@@ -17,6 +25,7 @@ export class Section {
   }
 
   addItem(item) {
+    //const card = this._renderer(item)
     this._container.prepend(item);
   }
 }

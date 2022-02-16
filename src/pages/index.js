@@ -7,6 +7,7 @@ import { Section } from '../js/components/Section.js';
 import { PopupWithForm } from '../js/components/PopupWithForm.js';
 import { PopupWithImage } from '../js/components/PopupWithImage.js';
 import { UserInfo } from '../js/components/UserInfo.js';
+import { PopupWithConfirm } from '../js/components/PopupWithConfirm';
 
 const editAvatarForm = document.querySelector('.form_type_edit-avatar');
 const editForm = document.querySelector(settings.editForm);
@@ -17,7 +18,7 @@ const editButton = document.querySelector(settings.buttonEdit);
 const inputName = editForm.querySelector(settings.inputName);
 const inputProfession = editForm.querySelector(settings.inputProfession);
 const cardListSelector = settings.elements;
-let defaultCardList = null;
+let cardList = null;
 let userId = null;
 
 const api = new Api({
@@ -27,96 +28,112 @@ const api = new Api({
     'Content-Type': 'application/json'
   }
 }); 
+
 const avatarFormValidator = new FormValidator(config, editAvatarForm);
 const userFormValidator = new FormValidator(config, editForm);
 const cardFormValidator = new FormValidator(config, addForm);
+const popupWithImage = new PopupWithImage(settings.slideType);
 const userInfo = new UserInfo({name: settings.profileName, about: settings.profileProfession, avatar: settings.avatar});
 
 avatarFormValidator.enableValidation();
 userFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 
-const handleCardDelete = (cardId) => api.deleteCard(cardId)
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
-
 const handleCardClick = (item) => {
-  new PopupWithImage(item, settings.slideType).open();
+  popupWithImage.open(item);
 };
 
 const handleLikeToggle = (evt, cardLike, cardId, counter ) => {
   if (evt.target.classList.contains(cardLike)) {
     api.changeLike(cardId, false)
-      .then(data => counter.textContent = data.likes.length)
+      .then(data => {
+        evt.target.classList.toggle(cardLike);
+         counter.textContent = data.likes.length
+        })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       });
   } else {
     api.changeLike(cardId, true)//(cardId)
-      .then(data => counter.textContent = data.likes.length)
+      .then(data => {
+        evt.target.classList.toggle(cardLike);
+        counter.textContent = data.likes.length
+      })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       });
   }
-  evt.target.classList.toggle(cardLike);
 }
-
-function renderLoading(isLoading, form) {
-  const button = form.querySelector(settings.buttonSave);
-  isLoading ? button.innerHTML ='Сохранение...' : button.innerHTML ='Сохранить';
-} 
 
 const saveUser = (evt, val) => {
   evt.preventDefault();
-  renderLoading(true, editForm);
+  userPopupWithForm.renderLoading(true, 'Сохранение...')  
   const {name, profession} = val;
-  const obj = {name: name.value, about: profession.value};
+  const obj = {name: name, about: profession};
   api.patchUser({
     name: obj.name,
     about: obj.about
   })
-    .then(data => userInfo.setUserInfo(data))
+    .then(data => {
+      userInfo.setUserInfo(data);
+      userPopupWithForm.close();
+    })
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
     })
-    .finally(renderLoading(false, editForm));
+    .finally(() => userPopupWithForm.renderLoading(false, 'Сохранить') );
+}
+
+const saveAvatar = (evt, val) => {
+  evt.preventDefault();
+  avatarPopupWithForm.renderLoading(true, 'Сохранение...') 
+  const {avatar} = val;
+  api.patchAvatar({avatar: avatar})
+    .then(
+      (data) => {
+        userInfo.setUserInfo(data);
+        avatarPopupWithForm.close();
+      })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+    .finally(() => avatarPopupWithForm.renderLoading(false, 'Сохранить') );
 }
 
 const saveCard = (evt, val) => {
   evt.preventDefault();
-  renderLoading(true, addForm);
+  cardPopupWithForm.renderLoading(true, 'Сохранение...') 
   const {name, link} = val;
-  const obj = {name: name.value, link: link.value};
-
+  const obj = {name: name, link: link};
   api.postCard(obj)
     .then((data) => {
-      const card = new Card({item: data, cardTemplate: settings.cardTemplate,
-        handleCardClick, handleLikeToggle, handleCardDelete, userId });
-      const cardElement = card.createCard();
-      defaultCardList.addItem(cardElement);
+      renderer(data);
+      cardPopupWithForm.close();
     })
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
     })
-    .finally(renderLoading(false, addForm));
+    .finally(() => cardPopupWithForm.renderLoading(false, 'Сохранить')  );
 }
 
-function saveAvatar(evt, val) {
+const deleteCardCallback = (evt, element, card) => {
   evt.preventDefault();
-  renderLoading(true, editAvatarForm);
-  const {avatar} = val;
-  api.patchAvatar({avatar: avatar.value})
-    .then((data) => userInfo.setUserAvatar(data))
-    .catch((err) => {
-      console.log(err); // выведем ошибку в консоль
-    })
-    .finally(renderLoading(false, editAvatarForm));
-}
+  popupWithConfirm.renderLoading(false, 'Удаление...')
+  api.deleteCard(card._item._id)
+  .then((data) => {
+    element.remove();
+    popupWithConfirm.close();
+   })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  })
+  .finally(() => popupWithConfirm.renderLoading(false, 'Да'));
+};
 
 const cardPopupWithForm = new PopupWithForm({submit: saveCard, popupSelector: settings.popupTypeAdd});
 const userPopupWithForm = new PopupWithForm({submit: saveUser, popupSelector: settings.popupTypeEdit});
 const avatarPopupWithForm = new PopupWithForm({submit: saveAvatar, popupSelector: '.popup_type_edit-avatar'});
+const popupWithConfirm = new PopupWithConfirm({ submit: deleteCardCallback, popupSelector: settings.popupModal});
 
 function openEditAvatarPopup() {
   avatarFormValidator.resetValidation();
@@ -125,15 +142,10 @@ function openEditAvatarPopup() {
 
 function openEditCardPopup() {
   userFormValidator.resetValidation();
-  api.getUser()
-    .then((data) => {
-      inputName.value = data.name;
-      inputProfession.value = data.about;
-      userPopupWithForm.open();
-    })
-    .catch((err) => {
-      console.log(err); // выведем ошибку в консоль
-    });
+  const {name, about} = userInfo.getUserInfo();
+  inputName.value = name;
+  inputProfession.value = about;
+  userPopupWithForm.open();
 }
 
 function openAddCardPopup() {
@@ -141,35 +153,38 @@ function openAddCardPopup() {
   cardPopupWithForm.open();
 }
 
-api.getUser()
-  .then((data) => {
-    userId = data._id;
-    userInfo.setUserInfo({name: data.name, about: data.about, avatar: data.avatar});
-    userInfo.setUserAvatar({name: data.name, about: data.about, avatar: data.avatar});
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
-
-api.getInitialCards()
-  .then((initialCards) => {
-    defaultCardList = new Section({
-      items: initialCards,
-      renderer: (item) => {
-        console.log(item);
-          const card = new Card({item: item, cardTemplate: settings.cardTemplate,
-            handleCardClick, handleLikeToggle, handleCardDelete, userId });
-          const cardElement = card.createCard();
-          defaultCardList.addItem(cardElement);
-        }
+Promise.all([api.getUser(), api.getCards()])
+  .then(([userData, cards]) => {
+    userId = userData._id;
+    userInfo.setUserInfo(userData);
+      cardList = new Section({
+      items: cards,
+        renderer: renderer
       },
       cardListSelector
     );
-    defaultCardList.render();
+    cardList.render();
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err); // выведем ошибку в консоль
   });
+
+function renderer(item) {
+  const cardElement = createCard(item);
+  cardList.addItem(cardElement);
+}
+
+function createCard(item) {
+  const card = new Card({
+    item: item,
+    cardTemplate: settings.cardTemplate,
+    handleCardClick,
+    handleLikeToggle,
+    handleCardDelete:popupWithConfirm,
+    userId
+  });
+  return card.createCard();
+}
 
 editButton.addEventListener('click', openEditCardPopup);
 addButton.addEventListener('click', openAddCardPopup);

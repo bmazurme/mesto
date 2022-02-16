@@ -5,10 +5,13 @@ export class PopupWithForm extends Popup {
   constructor({submit, popupSelector}) {
     super(popupSelector);
     this._popupSelector = popupSelector;
-    this._popup = document.querySelector(this._popupSelector);
-    this._submit = (evt, val) => { submit(evt, this._getInputValues()); this.close() };
-    this._popup = document.querySelector(this._popupSelector);
+    this._submit = (evt, val) => { submit(evt, this._getInputValues())};
     this._form = this._popup.querySelector(settings.form);
+  }
+
+  renderLoading(isLoading, buttonText='Сохранить') {
+    this._button = this._form.querySelector(settings.buttonSave);
+    isLoading ? this._button.textContent ='Сохранение...' : this._button.textContent = buttonText;
   }
 
   close() {
@@ -18,9 +21,13 @@ export class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    const { elements } = {elements: this._form .elements};
-    return elements;
-  }
+    this._inputList = this._form.querySelectorAll('.form__input');
+    this._formValues = {};
+    this._inputList.forEach(input => {
+      this._formValues[input.name] = input.value;
+    });
+    return this._formValues;
+  } 
 
   setEventListeners() {
     super.setEventListeners();

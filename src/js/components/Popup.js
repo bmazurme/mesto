@@ -1,4 +1,5 @@
 import { settings } from "../config";
+
 export class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
@@ -10,7 +11,7 @@ export class Popup {
   _handleButtonClose = (evt) => {
     if (evt.target.classList.contains(this._openPopup) || 
         evt.target.classList.contains(this._closePopup)) {
-      this.close(this._popup);
+      this.close();
     }
   };
 
