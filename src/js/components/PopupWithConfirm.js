@@ -4,12 +4,12 @@ import { settings } from '../config.js';
 export class PopupWithConfirm extends Popup {
   constructor({submit, popupSelector}) {
     super(popupSelector);
-    this._submit = (evt) => {submit(evt, this._element, this._card)};
+    this._submit = (evt) => {submit(evt, this._card)};
     this._form = this._popup.querySelector(settings.form);
+    this._button = this._form.querySelector(settings.buttonSave);
   }
 
   renderLoading(isLoading, buttonText='Да') {
-    this._button = this._form.querySelector(settings.buttonSave);
     isLoading ? this._button.textContent ='Удаление...' : this._button.textContent = buttonText;
   }
 

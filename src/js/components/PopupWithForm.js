@@ -7,10 +7,11 @@ export class PopupWithForm extends Popup {
     this._popupSelector = popupSelector;
     this._submit = (evt, val) => { submit(evt, this._getInputValues())};
     this._form = this._popup.querySelector(settings.form);
+    this._button = this._form.querySelector(settings.buttonSave);
+    this._inputList = this._form.querySelectorAll(config.inputSelector);
   }
 
   renderLoading(isLoading, buttonText='Сохранить') {
-    this._button = this._form.querySelector(settings.buttonSave);
     isLoading ? this._button.textContent ='Сохранение...' : this._button.textContent = buttonText;
   }
 
@@ -21,7 +22,6 @@ export class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    this._inputList = this._form.querySelectorAll(config.inputSelector);
     this._formValues = {};
     this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;

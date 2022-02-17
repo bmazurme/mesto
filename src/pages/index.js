@@ -53,20 +53,18 @@ const handleCardClick = (item) => {
 };
 
 const handleLikeToggle = (evt, card) => {
-  if (evt.target.classList.contains(card._cardLike)) {
-    api.changeLike(card._item._id, false)
+  if (evt.target.classList.contains(card.cardLike)) {
+    api.changeLike(card.id, false)
       .then(data => {
-        evt.target.classList.toggle(card._cardLike);
-        card._counter.textContent = data.likes.length
+        card.updateLikes(evt, data);
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       });
   } else {
-    api.changeLike(card._item._id, true)//(cardId)
+    api.changeLike(card.id, true)
       .then(data => {
-        evt.target.classList.toggle(card._cardLike);
-        card._counter.textContent = data.likes.length
+        card.updateLikes(evt, data);
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -122,12 +120,12 @@ const saveCard = (evt, val) => {
     .finally(() => cardPopupWithForm.renderLoading(false, 'Сохранить')  );
 }
 
-const deleteCardCallback = (evt, element, card) => {
+const deleteCardCallback = (evt, card) => {
   evt.preventDefault();
   popupWithConfirm.renderLoading(false, 'Удаление...')
-  api.deleteCard(card._item._id)
+  api.deleteCard(card.id)
     .then(() => {
-      element.remove();
+      card.removeItem();
       popupWithConfirm.close();
     })
     .catch((err) => {
@@ -177,11 +175,11 @@ Promise.all([api.getUser(), api.getCards()])
 
 function renderer(item) {
   const card = new Card({
-    item: item,
+    item,
     cardTemplate: settings.cardTemplate,
     handleCardClick,
     handleLikeToggle,
-    handleCardDelete:popupWithConfirm,
+    handleCardDelete: popupWithConfirm,
     userId
   });
   return card.createCard();
