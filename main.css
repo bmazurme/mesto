@@ -15,11 +15,11 @@
 .elements{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;margin-left:auto;margin-right:auto;margin-top:50px;max-width:880px;min-height:40vh}@media screen and (min-width:320px) and (max-width:599px){.elements{flex-direction:column;margin-top:36px;max-width:282px}}@media screen and (min-width:580px) and (max-width:879px){.elements{max-width:581px}}
 .element{background-color:#fff;border-radius:10px;display:flex;flex-direction:column;height:100%;margin-bottom:20px;margin-left:0;margin-right:17px;max-width:282px;position:relative;width:100%}.element:nth-child(3n){margin-right:0}@media screen and (min-width:320px) and (max-width:599px){.element{margin-left:auto;max-width:282px}.element,.element:nth-child(3n){margin-right:auto}.element:last-child{margin-bottom:0}}@media screen and (min-width:600px) and (max-width:879px){.element{margin-left:0;margin-right:0}.element:nth-child(2n){margin-left:16px}.element:last-child{margin-bottom:0}}
 .element__counter{color:#000;font-size:13px;font-weight:400;letter-spacing:0;line-height:16px;margin:0;padding:0;text-align:center}
-.element__column{display:flex;flex-direction:column;margin:auto 5px auto auto;padding:0}
+.element__column{display:flex;flex-direction:column;margin:0;padding:0}
 .element__remove{background-color:transparent;background-image:url(823b0cf1b0b7e9cb7cad.svg);background-repeat:no-repeat;background-size:cover;border:0;cursor:pointer;display:flex;height:19px;position:absolute;right:20px;top:20px;width:18px}
 .element__image{background:#c4c4c4;border-radius:10px 10px 0 0;cursor:pointer;height:282px;margin:0;max-width:282px;width:100%}
 .element__name{font-size:24px;font-weight:900;line-height:24px;margin:2px 0;max-width:200px;overflow:hidden;padding:0;text-overflow:ellipsis;white-space:nowrap;width:100%}
-.element__group{display:flex;flex-direction:row;justify-content:space-between;margin:0;padding:25px 15px 26px 21px}
+.element__group{display:flex;flex-direction:row;justify-content:space-between;margin:0;padding:20px}
 .element__like{align-self:flex-end;background:none;background-image:url(bf45e82757b0b9e50dfb.svg);background-size:cover;border:0;height:19px;margin:0;padding:0;width:22px}.element__like:hover{cursor:pointer;opacity:.5}
 .element__like_checked{background-image:url(fe17a515669479b1e649.svg)}
 .footer{color:#545454;font-size:18px;height:100%;line-height:22px;margin:47px auto 60px;max-width:880px;width:100%}@media screen and (max-width:879px){.footer{font-size:14px;line-height:17px;margin-bottom:36px;margin-top:48px;max-width:581px}}@media screen and (max-width:599px){.footer{max-width:282px}}
