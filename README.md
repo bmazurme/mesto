@@ -18,7 +18,7 @@
 
 ## Демо
 
-* [Проект на сайт  GitHub Pages](https://bmazurme.github.io/mesto/)
+[Проект на сайт  GitHub Pages](https://bmazurme.github.io/mesto/)
 
 ## Установка проекта
 
