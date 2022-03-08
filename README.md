@@ -20,6 +20,8 @@
 
 [Проект на сайт  GitHub Pages](https://bmazurme.github.io/mesto/)
 
+![Alt-текст](https://github.com/bmazurme/mesto/blob/main/src/images/mesto.png "demo")
+
 ## Установка проекта
 
 Клонируйте репозиторий на компьютер:
