@@ -18,7 +18,7 @@
 
 ## Демо
 
-[Проект на сайт  GitHub Pages](https://bmazurme.github.io/mesto/)
+[Проект на GitHub Pages](https://bmazurme.github.io/mesto/)
 
 ![Alt-текст](https://github.com/bmazurme/mesto/blob/main/src/images/mesto.png "demo")
 
